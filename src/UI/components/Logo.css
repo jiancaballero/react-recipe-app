@@ -1,0 +1,19 @@
+
+.logo-primary {
+  color: var(--primary);
+}
+.logo-secondary {
+  color: var(--secondary);
+}
+.logo-title {
+  color: var(--primary);
+  display: flex;
+  gap:10px;
+}
+.logo-title span {
+  color: var(--secondary);
+}
+.logo-title svg {
+    justify-content: center;
+    align-self: center;
+}

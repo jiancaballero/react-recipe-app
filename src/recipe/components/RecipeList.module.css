@@ -1,0 +1,13 @@
+.recipeList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+/* tablet */
+@media screen and (min-width: 536px) {
+  .recipeList {
+    flex-direction: row;
+  }
+}
+/* laptop */
+

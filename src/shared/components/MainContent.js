@@ -3,7 +3,6 @@ import RecipeList from "../../recipe/components/RecipeList";
 import Header from "./Header";
 import classes from "./MainContent.module.css";
 import axios from "axios";
-import { array } from "prop-types";
 
 const MainContent = (props) => {
   const searchRef = useRef();

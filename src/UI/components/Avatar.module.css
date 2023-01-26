@@ -1,12 +1,12 @@
 .avatar__container {
   border: none;
   cursor: pointer;
-  display: flex;
+  padding: 0.8em;
   border-radius: 40px;
   background-color: var(--primary);
+  display: flex;
   min-width: 130px;
   text-align: center;
-  padding: 0.8em;
   align-items: center;
   font-size: 0.6rem;
   font-weight: 800;

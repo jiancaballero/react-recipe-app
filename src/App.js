@@ -2,12 +2,11 @@ import "./App.css";
 import Registration from "./registration/pages/Registration.js";
 
 import { Route, Routes } from "react-router";
-import { Fragment, useState } from "react";
+
 import Login from "./registration/pages/Login";
 import SignUp from "./registration/pages/SignUp";
 import MainContent from "./shared/components/MainContent";
 function App() {
-  
   return (
     <Routes>
       <Route path="*" exact element={<p>No page </p>} />

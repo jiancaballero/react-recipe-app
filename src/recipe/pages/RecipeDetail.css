@@ -4,10 +4,10 @@
 /* mobile */
 .recipe__container {
   display: grid;
-  padding-top: 5em 0;
-  width: 95vw;
-  height: 100vh;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+  padding-top: 6em;
+
+  grid-template-rows: 1fr 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr 0.1fr;
   grid-template-columns: 1fr;
   text-align: center;
   grid-template-areas:
@@ -72,6 +72,10 @@
   border-radius: 8px;
 }
 .recipe__preparation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   margin: 2em 0;
   grid-area: recipe-prep;
 }
@@ -91,6 +95,17 @@ a {
   grid-area: recipe-ingredients;
   gap: 10px;
   align-items: center;
+}
+.recipe-nutritional-facts div,
+.recipe__preparation div,
+.recipe-ingredients div {
+  width: 30%;
+  margin-bottom: 0.5em;
+}
+.recipe-ingredients div > img,
+.recipe__preparation div > img,
+.recipe-nutritional-facts div > img {
+  width: 100%;
 }
 .recipe-ingredients h3,
 .recipe-nutritional-facts h3 {
@@ -114,6 +129,10 @@ a {
   gap: 8px;
 }
 .recipe-nutritional-facts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   margin: 2em 0;
   text-align: center;
   grid-area: recipe-nutrition;
@@ -124,7 +143,6 @@ a {
   font-size: 1.6em;
 }
 .favorites-button-group {
-  padding: 2em 0;
   font-size: 1.6rem;
   grid-area: cta-buttons;
 }
@@ -170,7 +188,8 @@ a {
 @media screen and (min-width: 620px) {
   .recipe__container {
     row-gap: 20px;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    padding: 3em;
+    grid-template-rows: 1fr 0.2fr 0.2fr 0.2fr;
     grid-template-columns: 1fr 1fr 1fr;
     text-align: center;
     grid-template-areas:
@@ -186,7 +205,7 @@ a {
     font-size: 1.2rem;
   }
   .recipe-tag-group span {
-    font-size: 0.85rem;
+    font-size: 0.6rem;
   }
   .recipe__preparation h3,
   .recipe-ingredients h3,
@@ -203,15 +222,16 @@ a {
 }
 @media screen and (min-width: 925px) {
   .recipe__container {
-    row-gap: 10px;
+    
+    padding: 6em;
     grid-auto-columns: 1fr;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0.5fr 0.2fr 0.5fr 1fr;
+    grid-template-columns: 1fr 0.9fr 1.1fr;
+    grid-template-rows: 0.9fr 0.8fr;
+    gap: 0px 0px;
     grid-template-areas:
-      "recipe-image recipe-details"
-      "recipe-image recipe-prep"
-      "recipe-image cta-buttons"
-      "recipe-ingredients recipe-nutrition";
+      "recipe-image recipe-image recipe-details"
+      "recipe-image recipe-image cta-buttons"
+      "recipe-ingredients recipe-prep recipe-nutrition";
   }
   .recipe-details h1 {
     font-size: 4rem;

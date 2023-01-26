@@ -10,6 +10,9 @@ import {
 } from "react-icons/fa";
 import "./RecipeDetail.css";
 import { Link } from "react-router-dom";
+import book from "../../assets/images/book.png";
+import ingredient from "../../assets/images/ingredients.png";
+import nutrition from "../../assets/images/nutirtion.png";
 const RecipeDetail = () => {
   return (
     <Fragment>
@@ -53,12 +56,18 @@ const RecipeDetail = () => {
         </div>
 
         <div className="recipe__preparation">
+          <div>
+            <img src={book} />
+          </div>
           <h3>How to prepare?</h3>
           <p>
             View recipe on <a href="">here</a>
           </p>
         </div>
         <div className="recipe-ingredients">
+          <div>
+            <img src={ingredient} />
+          </div>
           <h3>Ingredients</h3>
           <ul>
             <li>
@@ -82,8 +91,17 @@ const RecipeDetail = () => {
           </ul>
         </div>
         <div className="recipe-nutritional-facts">
+          <div>
+            <img src={nutrition} />
+          </div>
           <h3>Nutrional facts</h3>
           <ul>
+            <li>Fact 1</li>
+            <li>Fact frefee2</li>
+            <li>Fact 3 </li>
+            <li>Fact 1</li>
+            <li>Fact frefee2</li>
+            <li>Fact 3 </li>
             <li>Fact 1</li>
             <li>Fact frefee2</li>
             <li>Fact 3 </li>

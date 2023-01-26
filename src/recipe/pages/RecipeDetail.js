@@ -5,9 +5,11 @@ import {
   FaRegClock,
   FaRegCheckCircle,
   FaHeart,
-  FaRegHeart
+  FaArrowLeft,
+  FaRegHeart,
 } from "react-icons/fa";
 import "./RecipeDetail.css";
+import { Link } from "react-router-dom";
 const RecipeDetail = () => {
   return (
     <Fragment>
@@ -37,7 +39,7 @@ const RecipeDetail = () => {
               <span>minute/s</span>
             </div>
           </div>
-          <div className="recipe-tag__groups">
+          <div className="recipe-tag-group">
             <span>
               <p>Tags 123456</p>
             </span>
@@ -48,9 +50,12 @@ const RecipeDetail = () => {
               <p>Tags1223</p>
             </span>
           </div>
-          <h3>How to prepare</h3>
+        </div>
+
+        <div className="recipe__preparation">
+          <h3>How to prepare?</h3>
           <p>
-            View full recipe on <a href="">Link</a>
+            View recipe on <a href="">here</a>
           </p>
         </div>
         <div className="recipe-ingredients">
@@ -59,18 +64,19 @@ const RecipeDetail = () => {
             <li>
               <span>
                 <FaRegCheckCircle />
+                Ingredient 323kki
               </span>
-              Ingredient 1
             </li>
             <li>
               <span>
                 <FaRegCheckCircle />
+                Ingredient 323kki
               </span>
-              Ingredient 2
             </li>
             <li>
               <span>
-                <FaRegCheckCircle /> Ingredient 3
+                <FaRegCheckCircle />
+                Ingredient 23
               </span>
             </li>
           </ul>
@@ -79,14 +85,23 @@ const RecipeDetail = () => {
           <h3>Nutrional facts</h3>
           <ul>
             <li>Fact 1</li>
-            <li>Fact 2</li>
+            <li>Fact frefee2</li>
             <li>Fact 3 </li>
           </ul>
         </div>
-        <div className="favorites__button">
+
+        <div className="favorites-button-group">
           <button>
-            <FaRegHeart /> Add to favorites
+            <span>
+              <FaRegHeart />
+              Add to favorites
+            </span>
           </button>
+          <Link to="/home">
+            <span>
+              <FaArrowLeft /> Back to Search Recipes
+            </span>
+          </Link>
           {/* <button><FaHeart/> Add to favorites</button> */}
         </div>
       </div>

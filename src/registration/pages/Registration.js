@@ -8,7 +8,7 @@ const Registration = () => {
       <Logo />
       <div className={classes.registration__buttons}>
         <Link to="/login">Login</Link>
-        <Link to="/sign-up">Sign Up</Link>
+        <Link to="/signup">Sign Up</Link>
       </div>
     </div>
   );

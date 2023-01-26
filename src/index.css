@@ -11,8 +11,10 @@
   --primary: #fe9601;
   --secondary: #2a3941;
   --inverse: #eaeff2;
-  --primary-opacity: #f0bf7a;
+  --primary-opacity: #FFEDD3;
+  --primary-hover:#BA6D00;
   --secondary-opacity: #607984;
+  --secondary-hover:#052231;
   --error: #f1aba2;
 }
 

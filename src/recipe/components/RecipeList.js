@@ -1,19 +1,22 @@
 import React from "react";
-import classes from "./RecipeList.module.css";
+import "./RecipeList.css";
 import RecipeItem from "./RecipeItem";
 
-const RecipeList = (props) => {
+const RecipeList = ({ recipes }) => {
+ 
   return (
-    <div className={classes.recipeList}>
-      {props.recipes.map((recipe) => (
+    <div className="recipeList__container">
+      {recipes.map((recipe) => (
         <RecipeItem
-          name={recipe.recipe?.label}
+          key={recipe.recipe.uri}
+          id={recipe.recipe?.uri}
           image={recipe.recipe?.image}
+          name={recipe.recipe?.label}
           calories={recipe.recipe?.calories}
-          time={recipe?.time}
-          cuisineType={recipe.recipe?.cuisineType}
+          time={recipe.recipe?.totalTime}
           mealType={recipe.recipe?.mealType}
           dishType={recipe.recipe?.dishType}
+          cuisineType={recipe.recipe?.cuisineType}
         />
       ))}
     </div>

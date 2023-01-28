@@ -29,7 +29,7 @@ const Login = () => {
         </label>
 
         <div className={classes.login__cta}>
-          <Link>Login</Link>
+          <Link to="/">Login</Link>
           <Link to="/signup">No account yet? Click here</Link>
         </div>
       </form>

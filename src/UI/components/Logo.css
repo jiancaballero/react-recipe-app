@@ -1,4 +1,3 @@
-
 .logo-primary {
   color: var(--primary);
 }
@@ -8,12 +7,9 @@
 .logo-title {
   color: var(--primary);
   display: flex;
-  gap:10px;
-}
-.logo-title span {
-  color: var(--secondary);
+  gap: 10px;
 }
 .logo-title svg {
-    justify-content: center;
-    align-self: center;
+  justify-content: center;
+  align-self: center;
 }

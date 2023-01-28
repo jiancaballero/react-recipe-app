@@ -1,5 +1,5 @@
 {
-  "name": "reacrtrecipe-app-forked",
+  "name": "react-recipe-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -42,5 +42,8 @@
     ]
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@svgr/webpack": "^6.5.1"
+  }
 }

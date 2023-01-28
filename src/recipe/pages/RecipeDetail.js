@@ -6,9 +6,9 @@ import {
   FaRegCheckCircle,
   FaHeart,
   FaArrowLeft,
-  FaRegHeart,
+  FaRegHeart
 } from "react-icons/fa";
-import "./RecipeDetail.css";
+import classes from "./RecipeDetail.module.css";
 import { Link } from "react-router-dom";
 import book from "../../assets/images/book.png";
 import ingredient from "../../assets/images/ingredients.png";
@@ -17,18 +17,18 @@ const RecipeDetail = () => {
   return (
     <Fragment>
       <Header />
-      <div className="recipe__container">
-        <div className="recipe-image">
-          <div className="recipe-image__container">
+      <div className={classes.recipe__container}>
+        <div className={classes["recipe-image"]}>
+          <div className={classes["recipe-image__container"]}>
             <img
               src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?cs=srgb&dl=pexels-ash-376464.jpg&fm=jpg"
               alt=""
             />
           </div>
         </div>
-        <div className="recipe-details">
+        <div className={classes["recipe-details"]}>
           <h1>Recipe Name</h1>
-          <div className="recipe-tag__calorie-time">
+          <div className={classes["recipe-tag__calorie-time"]}>
             <div>
               <span>
                 <FaFireAlt />
@@ -42,7 +42,7 @@ const RecipeDetail = () => {
               <span>minute/s</span>
             </div>
           </div>
-          <div className="recipe-tag-group">
+          <div className={classes["recipe-tag-group"]}>
             <span>
               <p>Tags 123456</p>
             </span>
@@ -55,7 +55,7 @@ const RecipeDetail = () => {
           </div>
         </div>
 
-        <div className="recipe__preparation">
+        <div className={classes["recipe__preparation"]}>
           <div>
             <img src={book} />
           </div>
@@ -64,7 +64,7 @@ const RecipeDetail = () => {
             View recipe on <a href="">here</a>
           </p>
         </div>
-        <div className="recipe-ingredients">
+        <div className={classes["recipe-ingredients"]}>
           <div>
             <img src={ingredient} />
           </div>
@@ -90,7 +90,7 @@ const RecipeDetail = () => {
             </li>
           </ul>
         </div>
-        <div className="recipe-nutritional-facts">
+        <div className={classes["recipe-nutritional-facts"]}>
           <div>
             <img src={nutrition} />
           </div>
@@ -108,7 +108,7 @@ const RecipeDetail = () => {
           </ul>
         </div>
 
-        <div className="favorites-button-group">
+        <div className={classes["favorites-button-group"]}>
           <button>
             <span>
               <FaRegHeart />

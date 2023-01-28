@@ -13,19 +13,24 @@ import "./RecipeItem.css";
 
 const RecipeItem = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const calorie = isNaN(Math.floor(props.calorie))
+  const recipeID = props.id;
+  const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
-    : Math.floor(props.calorie) + "calories";
+    : Math.floor(props.calories) + " calories";
   const time = props.time > 0 ? props.time + "minute/s" : "less than a minute";
-  const cuisineType = props.cuisineType.map((cuisine) => {
+  const cuisineType = props.cuisineType&&props.cuisineType.map((cuisine) => {
     return <span>{cuisine}</span>;
   });
-  const dishType = props.dishType.map((dish) => {
+  const dishType = props.dishType&&props.dishType.map((dish) => {
     return <span>{dish}</span>;
   });
-  const mealType = props.mealType.map((meal) => {
+  const mealType = props.mealType&&props.mealType.map((meal) => {
     return <span>{meal}</span>;
   });
+
+  const updateIsFavoriteHandler = (favorite) => {
+    setIsFavorite(favorite);
+  };
   return (
     <Card className="recipe-item-container">
       <div className="recipe-card-header">
@@ -57,7 +62,11 @@ const RecipeItem = (props) => {
       </div>
       <div className="recipe-card-action">
         <div className="favorites-button-group">
-          <Link to="/id/recipe/details">
+          <Link
+            to={`/recipe/details/${props.id}`}
+            state={{recipeID:recipeID,favorite:isFavorite}}
+          >
+          
             <div>View Details</div>
           </Link>
           {!isFavorite && (

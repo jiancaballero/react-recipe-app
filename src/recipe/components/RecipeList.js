@@ -9,7 +9,7 @@ const RecipeList = ({ recipes }) => {
       {recipes.map((recipe) => (
         <RecipeItem
           key={recipe.recipe.uri}
-          id={recipe.recipe?.uri}
+          id={recipe._links.self.href}
           image={recipe.recipe?.image}
           name={recipe.recipe?.label}
           calories={recipe.recipe?.calories}

@@ -165,9 +165,9 @@ a {
 }
 
 .favorites-button-group button:first-of-type {
-  background: var(--primary);
+  
   margin-bottom: 1.5em;
-  color: var(--primary-opacity);
+  
 }
 .favorites-button-group button:first-of-type:hover {
   background: var(--primary-hover);

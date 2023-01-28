@@ -1,9 +1,18 @@
+.pagination-container {
+  background: var(--secondary);
+  margin-top: 4em;
+  display: flex;
+}
 .pagination {
   display: flex;
+  width: 100%;
   list-style: none;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .pagination li a {
+  font-size: 1.5em;
   color: var(--primary);
   float: left;
   padding: 8px 16px;

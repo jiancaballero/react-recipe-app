@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Header from "../../shared/components/Header";
 import {
   FaFireAlt,
@@ -6,52 +6,120 @@ import {
   FaRegCheckCircle,
   FaHeart,
   FaArrowLeft,
-  FaRegHeart
+  FaRegHeart,
 } from "react-icons/fa";
 import classes from "./RecipeDetail.module.css";
 import { Link } from "react-router-dom";
 import book from "../../assets/images/book.png";
-import ingredient from "../../assets/images/ingredients.png";
-import nutrition from "../../assets/images/nutirtion.png";
-const RecipeDetail = () => {
+import ingredientImage from "../../assets/images/ingredients.png";
+import nutritionImage from "../../assets/images/nutirtion.png";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+const RecipeDetail = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [recipes, setRecipes] = useState([]);
+  const location = useLocation();
+  const recipeID = location.state.recipeID;
+  const calorie = isNaN(Math.floor(recipes.calories))
+    ? "No calories"
+    : Math.floor(recipes.calories) + " calories";
+  const time =
+    recipes.time > 0 ? recipes.time + "minute/s" : "less than a minute";
+  const cuisineType =
+    recipes.cuisineType &&
+    recipes.cuisineType.map((cuisine) => {
+      return <span>{cuisine}</span>;
+    });
+  const dishType =
+    recipes.cuisineType &&
+    recipes.dishType.map((dish) => {
+      return <span>{dish}</span>;
+    });
+  const mealType =
+    recipes.cuisineType &&
+    recipes.mealType.map((meal) => {
+      return <span>{meal}</span>;
+    });
+  const ingredients =
+    recipes.ingredientLines &&
+    recipes.ingredientLines.map((ingredient) => {
+      return (
+        <li>
+          <span>
+            <FaRegCheckCircle />
+            {ingredient}
+          </span>
+        </li>
+      );
+    });
+
+  const nutrients =
+    recipes.totalNutrients &&
+    Object.entries(recipes.totalNutrients).map(([keys, value]) => {
+      return (
+        <li>
+          {value.label} - {Math.floor(value.quantity)}
+          {value.unit}
+        </li>
+      );
+    });
+  console.log(nutrients);
+  useEffect(() => {
+    const getRecipeDetail = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios
+          .get(recipeID)
+          .catch((err) => console.log(err));
+        console.log(response);
+        setRecipes(response.data.recipe);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRecipeDetail();
+  }, [recipeID]);
+
+  const [isFavorite, setIsFavorite] = useState(location.isFavorite);
+  const updateIsFavoriteHandler = () => {
+    if (isFavorite) {
+      setIsFavorite(false);
+      // location.updateIsFavorite(isFavorite);
+    } else {
+      setIsFavorite(true);
+      // location.updateIsFavorite(isFavorite);
+    }
+  };
   return (
     <Fragment>
       <Header />
       <div className={classes.recipe__container}>
         <div className={classes["recipe-image"]}>
           <div className={classes["recipe-image__container"]}>
-            <img
-              src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?cs=srgb&dl=pexels-ash-376464.jpg&fm=jpg"
-              alt=""
-            />
+            <img src={recipes.image} alt="" />
           </div>
         </div>
         <div className={classes["recipe-details"]}>
-          <h1>Recipe Name</h1>
+          <h1>{recipes.label}</h1>
           <div className={classes["recipe-tag__calorie-time"]}>
             <div>
               <span>
                 <FaFireAlt />
               </span>
-              <span>calories</span>
+              <span>{calorie}</span>
             </div>
             <div>
               <span>
                 <FaRegClock />
               </span>
-              <span>minute/s</span>
+              <span>{time}</span>
             </div>
           </div>
           <div className={classes["recipe-tag-group"]}>
-            <span>
-              <p>Tags 123456</p>
-            </span>
-            <span>
-              <p>Tags1234</p>
-            </span>
-            <span>
-              <p>Tags1223</p>
-            </span>
+            {cuisineType}
+            {dishType}
+            {mealType}
           </div>
         </div>
 
@@ -61,66 +129,56 @@ const RecipeDetail = () => {
           </div>
           <h3>How to prepare?</h3>
           <p>
-            View recipe on <a href="">here</a>
+            View recipe on <a href={recipes.url}>{recipes.source}</a>
           </p>
         </div>
         <div className={classes["recipe-ingredients"]}>
           <div>
-            <img src={ingredient} />
+            <img src={ingredientImage} />
           </div>
           <h3>Ingredients</h3>
-          <ul>
-            <li>
-              <span>
-                <FaRegCheckCircle />
-                Ingredient 323kki
-              </span>
-            </li>
-            <li>
-              <span>
-                <FaRegCheckCircle />
-                Ingredient 323kki
-              </span>
-            </li>
-            <li>
-              <span>
-                <FaRegCheckCircle />
-                Ingredient 23
-              </span>
-            </li>
-          </ul>
+          <ul>{ingredients}</ul>
         </div>
         <div className={classes["recipe-nutritional-facts"]}>
           <div>
-            <img src={nutrition} />
+            <img src={nutritionImage} />
           </div>
           <h3>Nutrional facts</h3>
-          <ul>
-            <li>Fact 1</li>
-            <li>Fact frefee2</li>
-            <li>Fact 3 </li>
-            <li>Fact 1</li>
-            <li>Fact frefee2</li>
-            <li>Fact 3 </li>
-            <li>Fact 1</li>
-            <li>Fact frefee2</li>
-            <li>Fact 3 </li>
-          </ul>
+          <ul>{nutrients}</ul>
         </div>
 
         <div className={classes["favorites-button-group"]}>
-          <button>
-            <span>
-              <FaRegHeart />
-              Add to favorites
-            </span>
-          </button>
+          {!props.setIsFavorite && (
+            <button
+              onClick={updateIsFavoriteHandler}
+              style={{
+                color: "var(--primary)",
+                background: "#fff",
+                border: "1px solid var(--primary)",
+              }}
+            >
+              <div>
+                <FaRegHeart />
+                Add to favorites
+              </div>
+            </button>
+          )}
+          {props.setIsFavorite && (
+            <button
+              onClick={updateIsFavoriteHandler}
+              style={{
+                background: "var(--primary)",
+                color: "var(--primary-opacity",
+              }}
+            >
+              <FaHeart /> REMOVE FROM FAVORITES
+            </button>
+          )}
           <Link to="/home">
             <span>
               <FaArrowLeft /> Back to Search Recipes
             </span>
           </Link>
-          {/* <button><FaHeart/> Add to favorites</button> */}
         </div>
       </div>
     </Fragment>

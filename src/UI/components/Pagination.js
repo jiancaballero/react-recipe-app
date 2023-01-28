@@ -1,5 +1,3 @@
-import { awaitExpression } from "@babel/types";
-import axios from "axios";
 import React from "react";
 import "./Pagination.css";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
@@ -10,24 +8,27 @@ const Pagination = ({ recipesPerPage, totalRecipes, paginate }) => {
     pageNumbers.push(i);
   }
 
+  // TODO: PREVIOS AND NEXT BUTTON
   return (
-    <ul className="pagination">
-      <li>
-        <a>
-          <FaArrowCircleLeft />
-        </a>
-      </li>
-      {pageNumbers.map((number) => (
-        <li key={number}>
-          <a onClick={() => paginate(number)}>{number}</a>
+    <div className="pagination-container">
+      <ul className="pagination">
+        <li>
+          <a>
+            <FaArrowCircleLeft />
+          </a>
         </li>
-      ))}
-      <li>
-        <a>
-          <FaArrowCircleRight />
-        </a>
-      </li>
-    </ul>
+        {pageNumbers.map((number) => (
+          <li key={number}>
+            <a onClick={() => paginate(number)}>{number}</a>
+          </li>
+        ))}
+        <li>
+          <a>
+            <FaArrowCircleRight />
+          </a>
+        </li>
+      </ul>
+    </div>
   );
 };
 

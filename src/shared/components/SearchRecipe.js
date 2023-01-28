@@ -6,8 +6,8 @@ const SearchRecipe = (props) => {
 
   const submitSearch = (e) => {
     e.preventDefault();
-    const { passRecipesHandler } = props;
-    passRecipesHandler(searchInputRef.current.value);
+    const { recipeHandler } = props;
+    recipeHandler(searchInputRef.current.value);
     searchInputRef.current.value = "";
   };
   return (

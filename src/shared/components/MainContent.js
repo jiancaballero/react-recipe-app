@@ -2,17 +2,20 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import RecipeList from "../../recipe/components/RecipeList";
 import Header from "./Header";
 import "./MainContent.css";
-
-import Spinner from "../../UI/components/Spinner";
-import SearchRecipe from "./SearchRecipe";
 import axios from "axios";
+import Spinner from "../../UI/components/Spinner";
 import Pagination from "../../UI/components/Pagination";
-
+import SearchRecipe from "./SearchRecipe";
+import { useDispatch, useSelector } from "react-redux";
+import { recipeActions } from "../../redux/store/recipes-slice";
 const MainContent = (props) => {
+  // const dispatch = useDispatch();
+  // const isLoading = useSelector((state) => state.recipes.isLoading);
+  // const recipes = useSelector((state) => state.recipes);
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // API CALL
+  //API CALL
   const fetchRecipesHandler = async (searchResult) => {
     try {
       setIsLoading(true);
@@ -33,18 +36,13 @@ const MainContent = (props) => {
   // TODO: study this part from: https://www.google.com/search?q=react+pagination&rlz=1C5CHFA_enJP944JP944&sxsrf=AJOqlzX17R5uegVp_V98DWMI9fuwjzEMBQ:1674842038371&source=lnms&tbm=vid&sa=X&ved=2ahUKEwiz4oHmqOj8AhWRMN4KHUZWD84Q_AUoAXoECAEQAw&biw=1440&bih=764&dpr=2#fpstate=ive&vld=cid:37d29cbf,vid:IYCa1F-OWmk
   const [currentPage, setCurrentPage] = useState(1);
   const [recipesPerPage, setRecipesPerPage] = useState(5);
-
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipe = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-  console.log(indexOfLastRecipe);
-  console.log(indexOfFirstRecipe);
-  console.log(currentRecipe);
+  const currentRecipe =
+    recipes.length > 0 && recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+
   const paginate = (pageNumber) => {
-    setIsLoading(true);
-    setIsLoading(false);
     setCurrentPage(pageNumber);
-    
   };
 
   // CONDITIONAL RENDERS
@@ -71,7 +69,7 @@ const MainContent = (props) => {
         <div className="banner-title">{banner}</div>
         <SearchRecipe
           className="search__container"
-          passRecipesHandler={fetchRecipesHandler}
+          recipeHandler={fetchRecipesHandler}
         />
       </div>
       {isLoading && <Spinner />}
@@ -81,7 +79,6 @@ const MainContent = (props) => {
           recipesPerPage={recipesPerPage}
           totalRecipes={recipes.length}
           paginate={paginate}
-          
         />
       )}
     </Fragment>

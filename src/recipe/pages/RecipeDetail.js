@@ -16,6 +16,7 @@ import nutritionImage from "../../assets/images/nutirtion.png";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import useHttp from "../../hooks/use-http";
+import Spinner from "../../UI/components/Spinner";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const location = useLocation();
@@ -92,93 +93,96 @@ const RecipeDetail = (props) => {
   return (
     <Fragment>
       <Header />
-      <div className={classes.recipe__container}>
-        <div className={classes["recipe-image"]}>
-          <div className={classes["recipe-image__container"]}>
-            <img src={recipes.image} alt="" />
-          </div>
-        </div>
-        <div className={classes["recipe-details"]}>
-          <h1>{recipes.label}</h1>
-          <div className={classes["recipe-tag__calorie-time"]}>
-            <div>
-              <span>
-                <FaFireAlt />
-              </span>
-              <span>{calorie}</span>
-            </div>
-            <div>
-              <span>
-                <FaRegClock />
-              </span>
-              <span>{time}</span>
+      {isLoading && <Spinner />}
+      {!isLoading && (
+        <div className={classes.recipe__container}>
+          <div className={classes["recipe-image"]}>
+            <div className={classes["recipe-image__container"]}>
+              <img src={recipes.image} alt="" />
             </div>
           </div>
-          <div className={classes["recipe-tag-group"]}>
-            {cuisineType}
-            {dishType}
-            {mealType}
-          </div>
-        </div>
-
-        <div className={classes["recipe__preparation"]}>
-          <div>
-            <img src={book} />
-          </div>
-          <h3>How to prepare?</h3>
-          <p>
-            View recipe on <a href={recipes.url}>{recipes.source}</a>
-          </p>
-        </div>
-        <div className={classes["recipe-ingredients"]}>
-          <div>
-            <img src={ingredientImage} />
-          </div>
-          <h3>Ingredients</h3>
-          <ul>{ingredients}</ul>
-        </div>
-        <div className={classes["recipe-nutritional-facts"]}>
-          <div>
-            <img src={nutritionImage} />
-          </div>
-          <h3>Nutrional facts</h3>
-          <ul>{nutrients}</ul>
-        </div>
-
-        <div className={classes["favorites-button-group"]}>
-          {!favorited && (
-            <button
-              onClick={updateIsFavoriteHandler}
-              style={{
-                color: "var(--primary)",
-                background: "#fff",
-                border: "1px solid var(--primary)",
-              }}
-            >
+          <div className={classes["recipe-details"]}>
+            <h1>{recipes.label}</h1>
+            <div className={classes["recipe-tag__calorie-time"]}>
               <div>
-                <FaRegHeart />
-                Add to favorites
+                <span>
+                  <FaFireAlt />
+                </span>
+                <span>{calorie}</span>
               </div>
-            </button>
-          )}
-          {favorited && (
-            <button
-              onClick={updateIsFavoriteHandler}
-              style={{
-                background: "var(--primary)",
-                color: "var(--primary-opacity",
-              }}
-            >
-              <FaHeart /> REMOVE FROM FAVORITES
-            </button>
-          )}
-          <Link to="/home">
-            <span>
-              <FaArrowLeft /> Back to Search Recipes
-            </span>
-          </Link>
+              <div>
+                <span>
+                  <FaRegClock />
+                </span>
+                <span>{time}</span>
+              </div>
+            </div>
+            <div className={classes["recipe-tag-group"]}>
+              {cuisineType}
+              {dishType}
+              {mealType}
+            </div>
+          </div>
+
+          <div className={classes["recipe__preparation"]}>
+            <div>
+              <img src={book} />
+            </div>
+            <h3>How to prepare?</h3>
+            <p>
+              View recipe on <a href={recipes.url}>{recipes.source}</a>
+            </p>
+          </div>
+          <div className={classes["recipe-ingredients"]}>
+            <div>
+              <img src={ingredientImage} />
+            </div>
+            <h3>Ingredients</h3>
+            <ul>{ingredients}</ul>
+          </div>
+          <div className={classes["recipe-nutritional-facts"]}>
+            <div>
+              <img src={nutritionImage} />
+            </div>
+            <h3>Nutrional facts</h3>
+            <ul>{nutrients}</ul>
+          </div>
+
+          <div className={classes["favorites-button-group"]}>
+            {!favorited && (
+              <button
+                onClick={updateIsFavoriteHandler}
+                style={{
+                  color: "var(--primary)",
+                  background: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+              >
+                <div>
+                  <FaRegHeart />
+                  Add to favorites
+                </div>
+              </button>
+            )}
+            {favorited && (
+              <button
+                onClick={updateIsFavoriteHandler}
+                style={{
+                  background: "var(--primary)",
+                  color: "var(--primary-opacity",
+                }}
+              >
+                <FaHeart /> REMOVE FROM FAVORITES
+              </button>
+            )}
+            <Link to="/home">
+              <span>
+                <FaArrowLeft /> Back to Search Recipes
+              </span>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </Fragment>
   );
 };

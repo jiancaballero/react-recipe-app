@@ -240,15 +240,15 @@ a {
     padding: 6em;
     grid-auto-columns: 1fr;
     grid-template-columns: 1fr 0.9fr 1.1fr;
-   
-    row-gap:60px;
+
+    row-gap: 60px;
     grid-template-areas:
       "recipe-image recipe-image recipe-details"
       "recipe-image recipe-image cta-buttons"
       "recipe-ingredients recipe-prep recipe-nutrition";
   }
-  .recipe-image__container{
-    padding:0;
+  .recipe-image__container {
+    padding: 0;
   }
   .recipe-details h1 {
     font-size: 4rem;

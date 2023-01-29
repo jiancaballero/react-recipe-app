@@ -15,7 +15,7 @@ const useHttp = () => {
           .catch((err) => console.log(err));
         console.log(response);
         setIsLoading(false);
-        handleResponse(response.data.hits);
+        handleResponse(response);
       } else if (request.method === "POST") {
         const response = await axios
           .put(request.endpoint, request.body)

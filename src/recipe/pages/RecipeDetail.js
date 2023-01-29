@@ -15,11 +15,29 @@ import ingredientImage from "../../assets/images/ingredients.png";
 import nutritionImage from "../../assets/images/nutirtion.png";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import useHttp from "../../hooks/use-http";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const location = useLocation();
   const recipeID = location.state.recipeID;
   const favorited = location.state.favorited;
+
+  // API CALL using custom hook
+  const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
+  const getRecipeDetail = (recipeDetails) => {
+    console.log(recipeDetails);
+    setRecipes(recipeDetails.data.recipe);
+  };
+  useEffect(() => {
+    fetchRecipeDetail(
+      {
+        method: "GET",
+        endpoint: recipeID,
+      },
+      getRecipeDetail
+    );
+  }, [fetchRecipeDetail, recipeID]);
+
   const updateIsFavoriteHandler = () => {
     if (favorited) {
       location.state.updateIsFavorite(false);
@@ -70,21 +88,6 @@ const RecipeDetail = (props) => {
         </li>
       );
     });
-
-  useEffect(() => {
-    const getRecipeDetail = async () => {
-      try {
-        const response = await axios
-          .get(recipeID)
-          .catch((err) => console.log(err));
-        console.log(response);
-        setRecipes(response.data.recipe);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRecipeDetail();
-  }, [recipeID]);
 
   return (
     <Fragment>

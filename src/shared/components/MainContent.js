@@ -26,7 +26,7 @@ const MainContent = (props) => {
     setSearchInput(input);
   };
   const displayRecipes = (recipeData) => {
-    setRecipes(recipeData);
+    setRecipes(recipeData.data.hits);
   };
 
   //API CALL using custom hook

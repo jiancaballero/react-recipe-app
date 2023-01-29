@@ -1,6 +1,5 @@
 .recipe-item-container {
   display: grid;
-  grid-template-rows: 0.2fr 0.5fr 0.5fr;
   grid-template-columns: 1fr;
   grid-template-columns: 1fr;
   row-gap: 10px;
@@ -36,6 +35,7 @@
   justify-content: center;
   gap: 10px;
   margin-bottom: 1em;
+  flex-wrap: wrap;
 }
 .recipe-tag__calorie-time span {
   display: flex;
@@ -48,6 +48,10 @@
 
 .recipe-card-action {
   grid-area: cta-buttons;
+}
+.recipe-tag-group {
+  display: flex;
+  flex-wrap: wrap;
 }
 .recipe-tag-group span {
   font-weight: 800;
@@ -113,22 +117,30 @@
 
 @media screen and (min-width: 425px) {
   .recipe-item-container {
-    row-gap: 15px;
-    grid-template-rows: 0.2fr 0.5fr 0.4fr;
+    row-gap: 5px;
+    grid-template-rows: 0.2fr 0.5fr;
     grid-template-columns: 1fr;
     grid-template-columns: 1fr;
   }
   .recipe-title h1 {
-    font-size: 2.5em;
+    font-size: 1em;
     font-weight: 800;
   }
   .recipe-tag-group span {
     font-size: 1em;
   }
   .recipe-tag__calorie-time span {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: 600;
   }
+  .recipe-tag-group span {
+    padding: 0.2em;
+    font-size: 0.8em;
+  }
+  /* .recipe-card-action {
+    display: flex;
+    
+  } */
 }
 
 /* tablet */
@@ -136,18 +148,29 @@
   .recipe-card-header div {
     height: 200px;
   }
+  .recipe-title h1 {
+    font-size: 1.5em;
+   
+  }
+  .recipe-tag__calorie-time span {
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+  .recipe-tag-group span {
+    font-size: 1em;
+  }
 }
 
 /* laptop */
 @media screen and (min-width: 1024px) {
   .recipe-item-container {
     row-gap: 15px;
-    grid-template-rows: 0.2fr 0.5fr 0.2fr;
+    grid-template-rows: 0.2fr 0.5fr;
     grid-template-columns: 1fr;
     grid-template-columns: 1fr;
   }
   .recipe-title h1 {
-    font-size: 3em;
+    font-size: 1.8em;
     font-weight: 800;
   }
   .recipe-card-header div {
@@ -164,5 +187,10 @@
   .favorites-button-group a,
   .favorites-button-group button {
     font-size: 1.5em;
+  }
+  .recipe-card-action {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
   }
 }

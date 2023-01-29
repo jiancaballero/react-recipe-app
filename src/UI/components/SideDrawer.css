@@ -1,0 +1,33 @@
+.side-drawer {
+  display: flex;
+  justify-content: flex-start;
+  background-color: var(--primary);
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 450px;
+  width: 250px;
+  padding-top: 120px;
+}
+.side-drawer ul {
+  width: 100%;
+}
+
+.side-drawer li {
+  list-style: none;
+}
+
+.side-drawer li a {
+  align-items: center;
+  gap: 40px;
+  color: var(--secondary);
+  font-size: 2em;
+  display: flex;
+  padding: 1em;
+  text-decoration: none;
+}
+.side-drawer a:hover {
+  background-color: var(--inverse);
+  color: var(--primary-hover);
+  opacity: 0.4;
+}

@@ -16,10 +16,17 @@ import nutritionImage from "../../assets/images/nutirtion.png";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 const RecipeDetail = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const location = useLocation();
   const recipeID = location.state.recipeID;
+  const favorited = location.state.favorited;
+  const updateIsFavoriteHandler = () => {
+    if (favorited) {
+      location.state.updateIsFavorite(false);
+    } else {
+      location.state.updateIsFavorite(true);
+    }
+  };
   const calorie = isNaN(Math.floor(recipes.calories))
     ? "No calories"
     : Math.floor(recipes.calories) + " calories";
@@ -63,17 +70,15 @@ const RecipeDetail = (props) => {
         </li>
       );
     });
-  console.log(nutrients);
+
   useEffect(() => {
     const getRecipeDetail = async () => {
       try {
-        setIsLoading(true);
         const response = await axios
           .get(recipeID)
           .catch((err) => console.log(err));
         console.log(response);
         setRecipes(response.data.recipe);
-        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -81,16 +86,6 @@ const RecipeDetail = (props) => {
     getRecipeDetail();
   }, [recipeID]);
 
-  const [isFavorite, setIsFavorite] = useState(location.isFavorite);
-  const updateIsFavoriteHandler = () => {
-    if (isFavorite) {
-      setIsFavorite(false);
-      // location.updateIsFavorite(isFavorite);
-    } else {
-      setIsFavorite(true);
-      // location.updateIsFavorite(isFavorite);
-    }
-  };
   return (
     <Fragment>
       <Header />
@@ -148,7 +143,7 @@ const RecipeDetail = (props) => {
         </div>
 
         <div className={classes["favorites-button-group"]}>
-          {!props.setIsFavorite && (
+          {!favorited && (
             <button
               onClick={updateIsFavoriteHandler}
               style={{
@@ -163,7 +158,7 @@ const RecipeDetail = (props) => {
               </div>
             </button>
           )}
-          {props.setIsFavorite && (
+          {favorited && (
             <button
               onClick={updateIsFavoriteHandler}
               style={{

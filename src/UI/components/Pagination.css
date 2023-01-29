@@ -21,12 +21,12 @@
 }
 
 .pagination li a.active {
-  background-color: var(--primary);
+  background-color: pink;
   color: white;
   border-radius: 5px;
 }
 
 .pagination li a:hover:not(.active) {
   background-color: var(--inverse);
-  border-radius: 5px;
+ 
 }

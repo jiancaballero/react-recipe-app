@@ -12,6 +12,7 @@
   font-weight: 800;
   color: var(--secondary);
   text-transform: uppercase;
+  z-index: 12;
 }
 
 .avatar__image img {

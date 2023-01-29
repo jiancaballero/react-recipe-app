@@ -5,6 +5,14 @@
   grid-auto-columns: 1fr;
   row-gap: 30px;
 }
+/* mobile -m*/
+@media screen and (min-width: 425px) {
+  .recipeList__container {
+    grid-template-rows: 1fr;
+    grid-template-columns: .5fr .5fr;
+    gap: 20px;
+  }
+}
 /* tablet */
 @media screen and (min-width: 750px) {
   .recipeList__container {
@@ -17,7 +25,7 @@
 @media screen and (min-width: 1024px) {
   .recipeList__container {
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 15px 30px;
     padding: 3em;
   }

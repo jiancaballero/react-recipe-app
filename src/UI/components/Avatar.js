@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import classes from "./Avatar.module.css";
+import SideDrawer from "./SideDrawer";
 
 const Avatar = () => {
+  const [showPanel, setShowPanel] = useState(false);
+  const showPanelToggler = () => {
+    !showPanel ? setShowPanel(true) : setShowPanel(false);
+  };
   return (
-    <button className={classes.avatar__container}>
-      <div className={classes.avatar__image}>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjkgdYCnQi5QBnFmf9C7CPUbaNXBhnORZRQQ&usqp=CAU" />
-      </div>
-      <h2>User</h2>
-    </button>
+    <>
+      {showPanel && <SideDrawer />}
+      <button onClick={showPanelToggler} className={classes.avatar__container}>
+        <div className={classes.avatar__image}>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjkgdYCnQi5QBnFmf9C7CPUbaNXBhnORZRQQ&usqp=CAU" />
+        </div>
+        <h2>User</h2>
+      </button>
+    </>
   );
 };
 

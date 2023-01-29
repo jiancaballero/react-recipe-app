@@ -35,7 +35,7 @@ const MainContent = (props) => {
   // PAGINATION LOGIC
   // TODO: study this part from: https://www.google.com/search?q=react+pagination&rlz=1C5CHFA_enJP944JP944&sxsrf=AJOqlzX17R5uegVp_V98DWMI9fuwjzEMBQ:1674842038371&source=lnms&tbm=vid&sa=X&ved=2ahUKEwiz4oHmqOj8AhWRMN4KHUZWD84Q_AUoAXoECAEQAw&biw=1440&bih=764&dpr=2#fpstate=ive&vld=cid:37d29cbf,vid:IYCa1F-OWmk
   const [currentPage, setCurrentPage] = useState(1);
-  const [recipesPerPage, setRecipesPerPage] = useState(5);
+  const [recipesPerPage, setRecipesPerPage] = useState(4);
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const currentRecipe =
@@ -57,7 +57,7 @@ const MainContent = (props) => {
       </h1>
     );
   const content =
-    recipes.length > 0 ? (
+    recipes.length > 0  ? (
       <RecipeList recipes={currentRecipe} />
     ) : (
       <h1>No Results Found</h1>
@@ -65,7 +65,7 @@ const MainContent = (props) => {
   return (
     <Fragment>
       <Header />
-      <div className="banner-container">
+      <div className="banner-container" id="recipes">
         <div className="banner-title">{banner}</div>
         <SearchRecipe
           className="search__container"
@@ -73,8 +73,8 @@ const MainContent = (props) => {
         />
       </div>
       {isLoading && <Spinner />}
-      {!isLoading && <main className="main-content-container">{content}</main>}
-      {recipes.length > 0 && (
+      {!isLoading && <main id="main-content" className="main-content-container">{content}</main>}
+      {recipes.length > 0 && !isLoading && (
         <Pagination
           recipesPerPage={recipesPerPage}
           totalRecipes={recipes.length}

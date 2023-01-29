@@ -19,7 +19,7 @@ const Pagination = ({ recipesPerPage, totalRecipes, paginate }) => {
         </li>
         {pageNumbers.map((number) => (
           <li key={number}>
-            <a onClick={() => paginate(number)}>{number}</a>
+            <a href="#recipes" onClick={() => paginate(number)}>{number}</a>
           </li>
         ))}
         <li>

@@ -18,15 +18,21 @@ const RecipeItem = (props) => {
     ? "No calories"
     : Math.floor(props.calories) + " calories";
   const time = props.time > 0 ? props.time + "minute/s" : "less than a minute";
-  const cuisineType = props.cuisineType&&props.cuisineType.map((cuisine) => {
-    return <span>{cuisine}</span>;
-  });
-  const dishType = props.dishType&&props.dishType.map((dish) => {
-    return <span>{dish}</span>;
-  });
-  const mealType = props.mealType&&props.mealType.map((meal) => {
-    return <span>{meal}</span>;
-  });
+  const cuisineType =
+    props.cuisineType &&
+    props.cuisineType.map((cuisine) => {
+      return <span>{cuisine}</span>;
+    });
+  const dishType =
+    props.dishType &&
+    props.dishType.map((dish) => {
+      return <span>{dish}</span>;
+    });
+  const mealType =
+    props.mealType &&
+    props.mealType.map((meal) => {
+      return <span>{meal}</span>;
+    });
 
   const updateIsFavoriteHandler = (favorite) => {
     setIsFavorite(favorite);
@@ -64,9 +70,8 @@ const RecipeItem = (props) => {
         <div className="favorites-button-group">
           <Link
             to={`/recipe/details/${props.id}`}
-            state={{recipeID:recipeID,favorite:isFavorite}}
+            state={{ recipeID: recipeID, favorited: isFavorite }}
           >
-          
             <div>View Details</div>
           </Link>
           {!isFavorite && (

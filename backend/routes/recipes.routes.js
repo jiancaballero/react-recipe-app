@@ -4,7 +4,7 @@ const controllers = require("../controllers/recipes.controller");
 // GET ALL FAVORITE RECIPES
 router.get("/", controllers.getAllRecipes);
 // ADDING FAVORITE RECIPE
-router.post("/:rid", controllers.addFavoriteRecipe);
+router.post("/", controllers.addFavoriteRecipe);
 // REMOVING FAVORITE RECIPE
-router.delete("/:rid", controllers.removeFavoriteRecipe);
+router.delete("/", controllers.removeFavoriteRecipe);
 module.exports = router;

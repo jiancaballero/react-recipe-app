@@ -14,7 +14,7 @@ const Login = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     });
-    auth.login();
+    auth.logIn();
   };
   return (
     <div className={classes.login__container}>

@@ -14,11 +14,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // ROUTES
-const favoriteRoutes = require("./routes/recipes.routes");
+const recipeRoutes = require("./routes/recipes.routes");
 const userRoutes = require("./routes/users.routes");
 
 // API Endpoints
-app.use("/api/recipes", favoriteRoutes);
+app.use("/api/recipes", recipeRoutes);
 app.use("/api/users", userRoutes);
 
 app.listen(port, () => {

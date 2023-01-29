@@ -20,7 +20,7 @@ const signup = async (req, res, next) => {
 // USER LOGIN
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-
+  console.log(email, password);
   let existingUser;
   try {
     existingUser = await User.findOne({ email: email });
@@ -32,7 +32,11 @@ const login = async (req, res, next) => {
       .status(500)
       .json({ message: "Login failed! Please check your email or password" });
   } else {
-    res.status(200).json({ isLoggedIn: true, message: "Login successful" });
+    res.status(201).json({
+      isLoggedIn: true,
+      message: "Login successful",
+      userData: existingUser.toObject({ getters: true }),
+    });
   }
 };
 

@@ -33,7 +33,7 @@ const addFavoriteRecipe = async (req, res, next) => {
   const uid = req.params.uid;
   const favoritedRecipe = new Recipe({
     uid,
-    recipe,
+    recipe
   });
   let user;
   try {

@@ -6,11 +6,12 @@ import Login from "./registration/pages/Login";
 import SignUp from "./registration/pages/SignUp";
 import MainContent from "./shared/components/MainContent";
 import RecipeDetail from "././recipe/pages/RecipeDetail";
+import Favorites from "./recipe/pages/Favorites";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { recipeActions } from "./redux/store/recipes-slice";
-import AuthCountext from "./context/auth-context";
+
+// import AuthCountext from "./context/auth-context";
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,39 +22,37 @@ function App() {
   //   setIsLoggedIn(false);
   // }, []);
   return (
-    <AuthCountext.Provider value>
-      <Routes>
-        <Route path="*" exact element={<p>No page </p>} />
-        <Route path="/" exact element={<Registration />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/signup" exact element={<SignUp />} />
-        {
-          <Route
-            path="/home"
-            exact
-            element={
-              <MainContent
-                bannerTitle={"Discover"}
-                bannerTitleSpan={"Recipes"}
-                favoriteMode={false}
-              />
-            }
-          />
-        }
-        <Route path="/recipe/details/:id*" element={<RecipeDetail />} />
+    <Routes>
+      <Route path="*" exact element={<p>No page </p>} />
+      <Route path="/" exact element={<Registration />} />
+      <Route path="/login" exact element={<Login />} />
+      <Route path="/signup" exact element={<SignUp />} />
+      {
         <Route
-          path="/:id/favorites"
+          path="/:uid/home"
           exact
           element={
             <MainContent
-              favoriteMode={true}
-              bannerTitle={"Jian's"}
-              bannerTitleSpan={"Favorites"}
+              bannerTitle={"Discover"}
+              bannerTitleSpan={"Recipes"}
+              favoriteMode={false}
             />
           }
         />
-      </Routes>
-    </AuthCountext.Provider>
+      }
+      <Route path="/recipe/details/:uid/:id*" element={<RecipeDetail />} />
+      <Route
+        path="/:uid/favorites"
+        exact
+        element={
+          <Favorites
+            favoriteMode={true}
+            bannerTitle={"Jian's"}
+            bannerTitleSpan={"Favorites"}
+          />
+        }
+      />
+    </Routes>
   );
 }
 

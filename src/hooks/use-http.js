@@ -7,7 +7,6 @@ const useHttp = () => {
 
   const sendRequest = useCallback(async (request, handleResponse) => {
     try {
-      console.log("TRIGGERED CALLBACK");
       setIsLoading(true);
       if (request.method === "GET") {
         const response = await axios

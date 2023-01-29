@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Card from "../../UI/components/Card";
 import {
   FaFireAlt,
@@ -10,10 +10,13 @@ import {
   FaRegHeart,
 } from "react-icons/fa";
 import "./RecipeItem.css";
+import axios from "axios";
 
 const RecipeItem = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const recipeID = props.id;
+  const { uid } = useParams();
+  const { id } = props;
+  const [recipeData, setRecipeData] = useState({});
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
     : Math.floor(props.calories) + " calories";
@@ -34,8 +37,40 @@ const RecipeItem = (props) => {
       return <span>{meal}</span>;
     });
 
-  const updateIsFavoriteHandler = (favorite) => {
-    setIsFavorite(favorite);
+  useEffect(() => {
+    console.log(recipeData);
+    if (Object.keys(recipeData).length !== 0) {
+      axios
+        .post(`http://localhost:8080/api/recipes/${uid}`, {
+          recipe: recipeData,
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            console.log(res);
+            alert(res.data.message);
+            setIsFavorite(res.data.isFavorite);
+          } else {
+            alert(res.error);
+          }
+        });
+    }
+  }, [recipeData]);
+  const addToFavoriteHandler = () => {
+    axios.get(props.id).then((res) => {
+      if (res.status == 200) {
+        setRecipeData(res.data);
+      }
+    });
+  };
+  // TODO: get the id from
+  const removeFromFavoriteHandler = () => {
+    axios.delete(`http://localhost:8080/api/recipes/${id}`).then((res) => {
+      if (res.status == 200) {
+        alert(res.data.message);
+      } else {
+        alert(res.error);
+      }
+    });
   };
   return (
     <Card className="recipe-item-container">
@@ -69,41 +104,27 @@ const RecipeItem = (props) => {
       <div className="recipe-card-action">
         <div className="favorites-button-group">
           <Link
-            to={`/recipe/details/${props.id}`}
-            state={{ recipeID: recipeID, favorited: isFavorite }}
+            to={`/recipe/details/${uid}/${props.id}`}
+            state={{ recipeID: id, favorited: isFavorite }}
           >
             <div>View Details</div>
           </Link>
-          {!isFavorite && (
-            <button
-              onClick={() => setIsFavorite(true)}
-              style={{
-                color: "var(--primary)",
-                background: "#fff",
-                border: "1px solid var(--primary)",
-              }}
-            >
-              <div>
-                <FaRegHeart />
-                Add to favorites
-              </div>
-            </button>
-          )}
-          {isFavorite && (
-            <button
-              onClick={() => setIsFavorite(false)}
-              style={{
-                background: "var(--primary)",
-                color: "var(--primary-opacity",
-              }}
-            >
-              <FaHeart /> REMOVE FROM FAVORITES
-            </button>
-          )}
+          <button onClick={addToFavoriteHandler}>
+            <FaHeart /> ADD FROM FAVORITES
+          </button>
+          <button
+            onClick={removeFromFavoriteHandler}
+            style={{
+              background: "var(--primary)",
+              color: "var(--primary-opacity",
+            }}
+          >
+            <FaHeart /> REMOVE FROM FAVORITES
+          </button>
         </div>
       </div>
     </Card>
   );
 };
 
-export default RecipeItem;
+export default React.memo(RecipeItem);

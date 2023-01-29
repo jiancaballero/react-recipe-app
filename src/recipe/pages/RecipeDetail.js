@@ -9,7 +9,7 @@ import {
   FaRegHeart,
 } from "react-icons/fa";
 import classes from "./RecipeDetail.module.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import book from "../../assets/images/book.png";
 import ingredientImage from "../../assets/images/ingredients.png";
 import nutritionImage from "../../assets/images/nutirtion.png";
@@ -22,11 +22,11 @@ const RecipeDetail = (props) => {
   const location = useLocation();
   const recipeID = location.state.recipeID;
   const favorited = location.state.favorited;
-
+  const { uid } = useParams();
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
   const getRecipeDetail = (recipeDetails) => {
-    console.log(recipeDetails);
+    
     setRecipes(recipeDetails.data.recipe);
   };
   useEffect(() => {
@@ -175,7 +175,7 @@ const RecipeDetail = (props) => {
                 <FaHeart /> REMOVE FROM FAVORITES
               </button>
             )}
-            <Link to="/home">
+            <Link to={`/${uid}/home`}>
               <span>
                 <FaArrowLeft /> Back to Search Recipes
               </span>

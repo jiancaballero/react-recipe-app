@@ -1,20 +1,32 @@
 import React, { useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 import Logo from "../../UI/components/Logo";
-import AuthCountext from "../../context/auth-context";
+import axios from "axios";
+
+// import AuthCountext from "../../context/auth-context";
 const Login = () => {
-  const auth = useState(AuthCountext);
+  // const auth = useState(AuthCountext);
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [logInCredentials, setLogInCredentials] = useState({});
+  const navigate = useNavigate();
   const onLoginHandler = (e) => {
     e.preventDefault();
-    setLogInCredentials({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
-    auth.logIn();
+
+    axios
+      .post("http://localhost:8080/api/users/login", {
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      })
+      .then((res) => {
+        if (res.status == 201) {
+          alert("Login successful");
+          navigate(`/${res.data.userData.id}/home`);
+        }
+      })
+      .catch((err) => {
+        alert("Login not successful. Please enter a correct email or password");
+      });
   };
   return (
     <div className={classes.login__container}>
@@ -47,7 +59,7 @@ const Login = () => {
         </label>
 
         <div className={classes.login__cta}>
-          <Link to="/home">Login</Link>
+          <button>Login</button>
           <Link to="/signup">No account yet? Click here</Link>
         </div>
       </form>

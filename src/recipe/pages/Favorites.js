@@ -7,46 +7,42 @@ import React, {
   useMemo,
 } from "react";
 import RecipeList from "../../recipe/components/RecipeList";
-import Header from "./Header";
-import "./MainContent.css";
+import Header from "../../shared/components/Header";
+import "../../shared/components/MainContent.css";
 import axios from "axios";
 import Spinner from "../../UI/components/Spinner";
 import Pagination from "../../UI/components/Pagination";
-import SearchRecipe from "./SearchRecipe";
+import SearchRecipe from "../../shared/components/SearchRecipe";
 import { useDispatch, useSelector } from "react-redux";
 // import { recipeActions } from "../../redux/store/recipes-slice";
 import useHttp from "../../hooks/use-http";
 import { useParams } from "react-router";
+import FavoriteList from "../components/FavoriteList";
 
 let initialLoad = true;
-const MainContent = (props) => {
-  let favorites = [];
+const Favorites = (props) => {
   const [recipes, setRecipes] = useState([]);
-  const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
   const [searchInput, setSearchInput] = useState("");
-
+  const [isLoading, setIsloading] = useState(false);
   const getSearchInput = (input) => {
     setSearchInput(input);
   };
 
-  const displayRecipes = (recipeData) => {
-    setRecipes(recipeData.data.hits);
-    setRecipeData(recipeData.data);
-  };
-
   //API CALL using custom hook
-  const { isLoading, hasError, sendRequest: fetchRecipe } = useHttp();
 
   useEffect(() => {
-    fetchRecipe(
-      {
-        method: "GET",
-        endpoint: `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}%20&app_id=560ff047&app_key=e3fdbdf07a147da690d189b06767d81e`,
-      },
-      displayRecipes
-    );
-  }, [fetchRecipe, searchInput]);
+    axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
+      setIsloading(true);
+      res.data.forEach((recipes) => {
+        setRecipes((prevState) => [
+          ...prevState,
+          { id: recipes.id, recipe: recipes.recipe },
+        ]);
+      });
+      setIsloading(false);
+    });
+  }, [searchInput]);
 
   // PAGINATION LOGIC
 
@@ -65,7 +61,7 @@ const MainContent = (props) => {
   const banner =
     recipes.length > 0 ? (
       <h1>
-        {recipes.length} <span>Recipes Found</span>
+        {recipes.length} <span>Favorite Recipes</span>
       </h1>
     ) : (
       <h1>
@@ -74,9 +70,9 @@ const MainContent = (props) => {
     );
   const content =
     recipes.length > 0 ? (
-      <RecipeList recipes={currentRecipe} recipeData={recipeData} />
+      <FavoriteList recipes={currentRecipe} />
     ) : (
-      <h1>No Results Found</h1>
+      <h1>No Recipes Found</h1>
     );
   return (
     <Fragment>
@@ -105,4 +101,4 @@ const MainContent = (props) => {
   );
 };
 
-export default MainContent;
+export default Favorites;

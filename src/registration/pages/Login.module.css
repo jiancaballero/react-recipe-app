@@ -44,16 +44,16 @@
   text-align: center;
 }
 
-.login__cta a:first-of-type {
+.login__cta button {
   text-decoration: none;
   margin: 0 auto;
   padding: 1em 0.4em;
   font-family: inherit;
-  width: 150px;
+  width: 40%;
   margin: 1em;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   background: var(--primary);

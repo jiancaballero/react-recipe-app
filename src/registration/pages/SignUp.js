@@ -1,18 +1,19 @@
+import axios from "axios";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../UI/components/Logo";
 import classes from "./SignUp.module.css";
 
 const SignUp = () => {
   // const [isTouched, setIsTouched] = useState(false);
-
+  const navigate = useNavigate();
   const [isValid, setIsValid] = useState({
     firstNameIsValid: true,
     lastNameIsValid: true,
     emailIsValid: true,
     passwordIsValid: true,
   });
-  
+
   let allFormIsValid = false;
 
   const [inputs, setInputs] = useState({
@@ -34,7 +35,6 @@ const SignUp = () => {
     emailIsValid: emailIsValidState,
     passwordIsValid: passwordIsValidState,
   } = isValid;
-
 
   const inputChangeHandler = (e) => {
     switch (e.target.name) {
@@ -73,12 +73,33 @@ const SignUp = () => {
     }
   };
 
-  useEffect(()=>{
-    
-  },[])
-  
+  useEffect(() => {}, []);
+
   const submitInputHandler = (e) => {
     e.preventDefault();
+    if (
+      firstNameIsValidState &&
+      lastNameIsValidState &&
+      emailIsValidState &&
+      passwordIsValidState
+    ) {
+      axios
+        .post("http://localhost:8080/api/users/signup", {
+          firstName: firstNameState,
+          lastName: lastNameState,
+          email: emailState,
+          password: passwordState,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("ok");
+            alert("Created account successfully");
+            navigate(`/login`);
+          } else {
+            alert("Please try again.");
+          }
+        });
+    }
     if (firstNameState.trim() === "") {
       setIsValid((prevState) => {
         return { ...prevState, firstNameIsValid: false };
@@ -116,9 +137,7 @@ const SignUp = () => {
         return { ...prevState, passwordIsValid: true };
       });
     }
-    
   };
-
 
   return (
     <div className={classes.signup__container}>

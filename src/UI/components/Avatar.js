@@ -10,6 +10,7 @@ const Avatar = () => {
   };
   return (
     <>
+     
       {showPanel && <SideDrawer />}
       <button onClick={showPanelToggler} className={classes.avatar__container}>
         <div className={classes.avatar__image}>

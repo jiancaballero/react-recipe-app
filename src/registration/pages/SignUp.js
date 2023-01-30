@@ -96,7 +96,7 @@ const SignUp = () => {
             alert("Created account successfully");
             navigate(`/login`);
           } else {
-            alert("Please try again.");
+            return alert("Account has already been taken. Please try again.");
           }
         });
     }

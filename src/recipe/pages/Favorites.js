@@ -32,8 +32,8 @@ const Favorites = (props) => {
   //API CALL using custom hook
 
   useEffect(() => {
+    setIsloading(true);
     axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
-      setIsloading(true);
       res.data.forEach((recipes) => {
         setRecipes((prevState) => [
           ...prevState,

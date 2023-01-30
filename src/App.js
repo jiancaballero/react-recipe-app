@@ -23,7 +23,7 @@ function App() {
   // }, []);
   return (
     <Routes>
-      <Route path="*" exact element={<p>No page </p>} />
+      <Route path="*" exact element={<p>404 page </p>} />
       <Route path="/" exact element={<Registration />} />
       <Route path="/login" exact element={<Login />} />
       <Route path="/signup" exact element={<SignUp />} />

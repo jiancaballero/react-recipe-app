@@ -4,7 +4,6 @@ import Favorite from "./RecipeItem";
 import RecipeItem from "./RecipeItem";
 
 const FavoriteList = ({ recipes }) => {
-  recipes.map((recipe) => console.log(recipe.id));
   return (
     <div className="recipeList__container">
       {recipes.map((recipe) => (

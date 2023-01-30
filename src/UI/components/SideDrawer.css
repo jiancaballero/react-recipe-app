@@ -31,3 +31,8 @@
   color: var(--primary-hover);
   opacity: 0.4;
 }
+.active-link{
+  background-color: var(--inverse);
+  color: var(--primary-hover);
+  opacity: 0.4;
+}

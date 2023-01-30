@@ -11,12 +11,14 @@ import {
 } from "react-icons/fa";
 import "./RecipeItem.css";
 import axios from "axios";
+import Spinner from "../../UI/components/Spinner";
 
 const RecipeItem = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { uid } = useParams();
   const { id } = props;
   const [recipeData, setRecipeData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
     : Math.floor(props.calories) + " calories";
@@ -38,7 +40,6 @@ const RecipeItem = (props) => {
     });
 
   useEffect(() => {
-    console.log(recipeData);
     if (Object.keys(recipeData).length !== 0) {
       axios
         .post(`http://localhost:8080/api/recipes/${uid}`, {
@@ -64,13 +65,15 @@ const RecipeItem = (props) => {
   };
   // TODO: get the id from
   const removeFromFavoriteHandler = () => {
-    axios.delete(`http://localhost:8080/api/recipes/${id}`).then((res) => {
-      if (res.status == 200) {
-        alert(res.data.message);
-      } else {
-        alert(res.error);
-      }
-    });
+    axios
+      .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
+      .then((res) => {
+        if (res.status == 200) {
+          alert(res.data.message);
+        } else {
+          alert(res.error);
+        }
+      });
   };
   return (
     <Card className="recipe-item-container">

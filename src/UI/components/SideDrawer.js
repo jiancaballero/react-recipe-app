@@ -1,24 +1,31 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import "./SideDrawer.css";
 import { MdLogout } from "react-icons/md";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaHome } from "react-icons/fa";
 const SideDrawer = () => {
   const { uid } = useParams();
+
   return (
     <div className="side-drawer">
       <ul>
         <li>
-          <Link to={`/${uid}/favorites`}>
-            <FaHeart />
-            Favorites
-          </Link>
+          <NavLink className=".active" to={`/${uid}/home`}>
+            <FaHome />
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to="/">
+          <NavLink className=".active" to={`/${uid}/favorites`}>
+            <FaHeart />
+            Favorites
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/">
             <MdLogout />
             Logout
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </div>

@@ -24,7 +24,7 @@ const MainContent = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("beef");
 
   const getSearchInput = (input) => {
     setSearchInput(input);
@@ -42,7 +42,7 @@ const MainContent = (props) => {
     fetchRecipe(
       {
         method: "GET",
-        endpoint: `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}%20&app_id=560ff047&app_key=e3fdbdf07a147da690d189b06767d81e`,
+        endpoint: `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}%20&app_id=560ff047&app_key=e3fdbdf07a147da690d189b06767d81e&tandom=true`,
       },
       displayRecipes
     );

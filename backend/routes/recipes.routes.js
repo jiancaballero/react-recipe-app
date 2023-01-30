@@ -6,5 +6,5 @@ router.get("/:uid", controllers.getAllRecipes);
 // ADDING FAVORITE RECIPE
 router.post("/:uid", controllers.addFavoriteRecipe);
 // REMOVING FAVORITE RECIPE
-router.delete(":rid/", controllers.removeFavoriteRecipe);
+router.delete("/:rid", controllers.removeFavoriteRecipe);
 module.exports = router;

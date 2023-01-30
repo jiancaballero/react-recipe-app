@@ -15,7 +15,7 @@ const User = require("../models/users.model");
 // GET ALL FAVORITE RECIPES
 const getAllRecipes = async (req, res, next) => {
   const userID = req.params.uid;
-  console.log(userID);
+
   let recipes;
   try {
     recipes = await Recipe.find({ uid: userID });
@@ -33,7 +33,7 @@ const addFavoriteRecipe = async (req, res, next) => {
   const uid = req.params.uid;
   const favoritedRecipe = new Recipe({
     uid,
-    recipe
+    recipe,
   });
   let user;
   try {
@@ -57,17 +57,18 @@ const addFavoriteRecipe = async (req, res, next) => {
     res.send(error.message);
   }
   res.status(201).json({
-    recipe: favoritedRecipe,
+    recipe: favoritedRecipe.toObject({ getters: true }),
     message: "Added to favorites successfully",
   });
 };
 
 // REMOVING FAVORITE RECIPE
 const removeFavoriteRecipe = async (req, res, next) => {
-  const recipeID = req.params.rid;
+  debugger;
+  const _id = req.params.rid;
   let recipe;
   try {
-    recipe = await Recipe.find({ recipe: recipeID }).populate("uid");
+    recipe = await Recipe.findById({ _id }).populate("uid");
   } catch (error) {
     res.send(error.message);
   }

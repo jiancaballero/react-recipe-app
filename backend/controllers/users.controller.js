@@ -3,6 +3,7 @@ const User = require("../models/users.model");
 // USER SIGN UP
 const signup = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
+  console.log(req.body);
   const createdUser = new User({
     firstName,
     lastName,
@@ -14,6 +15,7 @@ const signup = async (req, res, next) => {
     await createdUser.save();
   } catch (error) {
     res.status(500).send({ message: "Email already exists" });
+    return next(error);
   }
   res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };

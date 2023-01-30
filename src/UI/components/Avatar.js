@@ -5,7 +5,7 @@ import SideDrawer from "./SideDrawer";
 
 const Avatar = () => {
   const { uid } = useParams();
-  const userName = uid.substring(0, uid.length - 5);
+  const userName = uid.substring(0, 5);
   const [showPanel, setShowPanel] = useState(false);
   const showPanelToggler = () => {
     !showPanel ? setShowPanel(true) : setShowPanel(false);

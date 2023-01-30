@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/users.model");
+
 // USER SIGN UP
 const signup = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -19,6 +20,7 @@ const signup = async (req, res, next) => {
   }
   res.status(201).json({ user: createdUser.toObject({ getters: true }) });
 };
+
 // USER LOGIN
 const login = async (req, res, next) => {
   const { email, password } = req.body;

@@ -3,11 +3,9 @@ import { Link, NavLink, useParams } from "react-router-dom";
 import "./SideDrawer.css";
 import { MdLogout } from "react-icons/md";
 import { FaHeart, FaHome } from "react-icons/fa";
-import { AuthContext } from "../../context/auth-context";
 
 const SideDrawer = () => {
   const { uid } = useParams();
-  const auth = useContext(AuthContext);
   return (
     <div className="side-drawer">
       <ul>
@@ -24,7 +22,7 @@ const SideDrawer = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink onClick={() => auth.logout()}>
+          <NavLink to="/">
             <MdLogout />
             Logout
           </NavLink>

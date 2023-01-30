@@ -21,7 +21,7 @@ const Login = () => {
       .then((res) => {
         if (res.status == 201) {
           alert("Login successful");
-          auth.login();
+
           navigate(`/${res.data.userData.id}/home`);
         }
       })

@@ -11,14 +11,13 @@ import {
 } from "react-icons/fa";
 import "./RecipeItem.css";
 import axios from "axios";
-import Spinner from "../../UI/components/Spinner";
 
 const RecipeItem = (props) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const { uid } = useParams();
   const { id } = props;
   const [recipeData, setRecipeData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
     : Math.floor(props.calories) + " calories";

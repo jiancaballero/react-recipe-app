@@ -29,37 +29,32 @@ function App() {
         <Route path="/" exact element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/signup" exact element={<SignUp />} />
-        {isLoggedIn && (
-          <>
-            <Route
-              path="/:uid/home"
-              exact
-              element={
-                <MainContent
-                  bannerTitle={"Discover"}
-                  bannerTitleSpan={"Recipes"}
-                  favoriteMode={false}
-                />
-              }
+        <Route
+          path="/:uid/favorites"
+          exact
+          element={
+            <Favorites
+              favoriteMode={true}
+              bannerTitle={"All"}
+              bannerTitleSpan={"Favorites"}
             />
+          }
+        />
+        <>
+          <Route
+            path="/:uid/home"
+            exact
+            element={
+              <MainContent
+                bannerTitle={"Discover"}
+                bannerTitleSpan={"Recipes"}
+                favoriteMode={false}
+              />
+            }
+          />
 
-            <Route
-              path="/recipe/details/:uid/:id*"
-              element={<RecipeDetail />}
-            />
-            <Route
-              path="/:uid/favorites"
-              exact
-              element={
-                <Favorites
-                  favoriteMode={true}
-                  bannerTitle={"All"}
-                  bannerTitleSpan={"Favorites"}
-                />
-              }
-            />
-          </>
-        )}
+          <Route path="/recipe/details/:uid/:id*" element={<RecipeDetail />} />
+        </>
       </Routes>
     </AuthContext.Provider>
   );

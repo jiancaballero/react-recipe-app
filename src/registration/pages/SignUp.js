@@ -5,7 +5,6 @@ import Logo from "../../UI/components/Logo";
 import classes from "./SignUp.module.css";
 
 const SignUp = () => {
-  // const [isTouched, setIsTouched] = useState(false);
   const navigate = useNavigate();
   const [isValid, setIsValid] = useState({
     firstNameIsValid: true,
@@ -13,8 +12,6 @@ const SignUp = () => {
     emailIsValid: true,
     passwordIsValid: true,
   });
-
-  let allFormIsValid = false;
 
   const [inputs, setInputs] = useState({
     firstName: "",
@@ -92,7 +89,7 @@ const SignUp = () => {
         })
         .then((res) => {
           if (res.status === 201) {
-            console.log("ok");
+        
             alert("Created account successfully");
             navigate(`/login`);
           } else {

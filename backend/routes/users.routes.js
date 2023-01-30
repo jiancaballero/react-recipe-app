@@ -4,7 +4,6 @@ const controllers = require("../controllers/users.controller");
 const User = require("../models/users.model");
 // const {check} = require('express-validator')
 // SIGNUP
-
 router.post("/signup", controllers.signup);
 
 // LOGIN

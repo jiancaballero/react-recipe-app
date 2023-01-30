@@ -8,51 +8,60 @@ import MainContent from "./shared/components/MainContent";
 import RecipeDetail from "././recipe/pages/RecipeDetail";
 import Favorites from "./recipe/pages/Favorites";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-// import AuthCountext from "./context/auth-context";
+import { AuthContext } from "./context/auth-context";
 
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const login = useCallback(() => {
-  //   setIsLoggedIn(true);
-  // }, []);
-  // const logout = useCallback(() => {
-  //   setIsLoggedIn(false);
-  // }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
   return (
-    <Routes>
-      <Route path="*" exact element={<p>404 page </p>} />
-      <Route path="/" exact element={<Registration />} />
-      <Route path="/login" exact element={<Login />} />
-      <Route path="/signup" exact element={<SignUp />} />
-      {
-        <Route
-          path="/:uid/home"
-          exact
-          element={
-            <MainContent
-              bannerTitle={"Discover"}
-              bannerTitleSpan={"Recipes"}
-              favoriteMode={false}
+    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+      <Routes>
+        <Route path="*" exact element={<Registration />} />
+        <Route path="/" exact element={<Registration />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/signup" exact element={<SignUp />} />
+        {isLoggedIn && (
+          <>
+            <Route
+              path="/:uid/home"
+              exact
+              element={
+                <MainContent
+                  bannerTitle={"Discover"}
+                  bannerTitleSpan={"Recipes"}
+                  favoriteMode={false}
+                />
+              }
             />
-          }
-        />
-      }
-      <Route path="/recipe/details/:uid/:id*" element={<RecipeDetail />} />
-      <Route
-        path="/:uid/favorites"
-        exact
-        element={
-          <Favorites
-            favoriteMode={true}
-            bannerTitle={"Jian's"}
-            bannerTitleSpan={"Favorites"}
-          />
-        }
-      />
-    </Routes>
+
+            <Route
+              path="/recipe/details/:uid/:id*"
+              element={<RecipeDetail />}
+            />
+            <Route
+              path="/:uid/favorites"
+              exact
+              element={
+                <Favorites
+                  favoriteMode={true}
+                  bannerTitle={"All"}
+                  bannerTitleSpan={"Favorites"}
+                />
+              }
+            />
+          </>
+        )}
+      </Routes>
+    </AuthContext.Provider>
   );
 }
 

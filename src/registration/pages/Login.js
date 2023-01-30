@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 import Logo from "../../UI/components/Logo";
 import axios from "axios";
+import { AuthContext } from "../../context/auth-context";
 
-// import AuthCountext from "../../context/auth-context";
 const Login = () => {
-  // const auth = useState(AuthCountext);
+  const auth = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ const Login = () => {
       .then((res) => {
         if (res.status == 201) {
           alert("Login successful");
+          auth.login();
           navigate(`/${res.data.userData.id}/home`);
         }
       })

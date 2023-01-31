@@ -37,6 +37,7 @@ const RecipeItem = (props) => {
       return <span>{meal}</span>;
     });
 
+  // ADDING RECIPE TO DATABASE
   useEffect(() => {
     if (Object.keys(recipeData).length !== 0) {
       axios
@@ -53,6 +54,8 @@ const RecipeItem = (props) => {
         });
     }
   }, [recipeData]);
+
+  // GET ALL FAVORITES FROM DATABASE
   const addToFavoriteHandler = useCallback(() => {
     axios.get(props.id).then((res) => {
       if (res.status == 200) {
@@ -62,8 +65,8 @@ const RecipeItem = (props) => {
     });
   }, [props.id]);
 
+  // REMOVING RECIPES TO DATABASE
   const removeFromFavoriteHandler = useCallback(() => {
-    
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
       .then((res) => {

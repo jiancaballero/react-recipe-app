@@ -18,86 +18,44 @@ import { useDispatch, useSelector } from "react-redux";
 import useHttp from "../../hooks/use-http";
 import { useParams } from "react-router";
 import FavoriteList from "../components/FavoriteList";
+import MainContent from "../../shared/components/MainContent";
 
 let initialLoad = true;
 const Favorites = (props) => {
   const [recipes, setRecipes] = useState([]);
   const { uid } = useParams();
-  const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsloading] = useState(false);
-  const getSearchInput = (input) => {
-    setSearchInput(input);
+  const passSearchInput = (input) => {};
+
+  // TRANSFORM DATA FROM DB
+  let transformedRecipeData = [];
+  const transformData = (data) => {
+    transformedRecipeData.push({
+      recipeID: data.id,
+      recipe: data.recipe.recipe,
+      _links: data.recipe._links,
+      uid: data.uid,
+    });
+    setRecipes(transformedRecipeData);
   };
 
-  //API CALL using custom hook
-
+  //API CALL TO GET ALL FAVORITE RECIPES
   useEffect(() => {
     setIsloading(true);
     axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
-      res.data.forEach((recipes) => {
-        setRecipes((prevState) => [
-          ...prevState,
-          { id: recipes.id, recipe: recipes.recipe },
-        ]);
+      res.data.forEach((recipe) => {
+        transformData(recipe);
       });
       setIsloading(false);
     });
-  }, [searchInput]);
+  }, []);
 
-  // PAGINATION LOGIC
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recipesPerPage, setRecipesPerPage] = useState(4);
-  const indexOfLastRecipe = currentPage * recipesPerPage;
-  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipe =
-    recipes.length > 0 && recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // CONDITIONAL RENDERS
-  const banner =
-    recipes.length > 0 ? (
-      <h1>
-        {recipes.length} <span>Favorite Recipes</span>
-      </h1>
-    ) : (
-      <h1>
-        {props.bannerTitle} <span>{props.bannerTitleSpan}</span>
-      </h1>
-    );
-  const content =
-    recipes.length > 0 ? (
-      <FavoriteList recipes={currentRecipe} />
-    ) : (
-      <h1>No Recipes Found</h1>
-    );
   return (
-    <Fragment>
-      <Header />
-      <div className="banner-container" id="recipes">
-        <div className="banner-title">{banner}</div>
-        <SearchRecipe
-          className="search__container"
-          passSearchInput={getSearchInput}
-        />
-      </div>
-      {isLoading && <Spinner />}
-      {!isLoading && (
-        <main id="main-content" className="main-content-container">
-          {content}
-        </main>
-      )}
-      {recipes.length > 0 && !isLoading && (
-        <Pagination
-          recipesPerPage={recipesPerPage}
-          totalRecipes={recipes.length}
-          paginate={paginate}
-        />
-      )}
-    </Fragment>
+    <MainContent
+      isLoading={isLoading}
+      passSearchInput={passSearchInput}
+      recipes={recipes}
+    />
   );
 };
 

@@ -51,7 +51,7 @@ const MainContent = (props) => {
     );
   const content =
     recipes.length > 0 ? (
-      <RecipeList recipes={currentRecipe} />
+      <RecipeList recipes={currentRecipe} recipeID />
     ) : (
       <h1>No Results Found</h1>
     );

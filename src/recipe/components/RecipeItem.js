@@ -13,7 +13,7 @@ import "./RecipeItem.css";
 import axios from "axios";
 
 const RecipeItem = (props) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorite } = props;
   const { uid } = useParams();
   const { id } = props;
   const [recipeData, setRecipeData] = useState({});
@@ -48,7 +48,6 @@ const RecipeItem = (props) => {
           if (res.status == 201) {
             console.log(res);
             alert(res.data.message);
-            setIsFavorite(res.data.isFavorite);
           } else {
             alert(res.error);
           }
@@ -62,7 +61,7 @@ const RecipeItem = (props) => {
       }
     });
   };
-  
+
   const removeFromFavoriteHandler = () => {
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
@@ -74,6 +73,22 @@ const RecipeItem = (props) => {
         }
       });
   };
+
+  const favoriteButton = !!isFavorite ? (
+    <button
+      onClick={removeFromFavoriteHandler}
+      style={{
+        background: "var(--primary)",
+        color: "var(--primary-opacity",
+      }}
+    >
+      <FaHeart /> REMOVE FROM FAVORITES
+    </button>
+  ) : (
+    <button onClick={addToFavoriteHandler}>
+      <FaHeart /> ADD TO FAVORITES
+    </button>
+  );
   return (
     <Card className="recipe-item-container">
       <div className="recipe-card-header">
@@ -111,18 +126,7 @@ const RecipeItem = (props) => {
           >
             <div>View Details</div>
           </Link>
-          <button onClick={addToFavoriteHandler}>
-            <FaHeart /> ADD FROM FAVORITES
-          </button>
-          <button
-            onClick={removeFromFavoriteHandler}
-            style={{
-              background: "var(--primary)",
-              color: "var(--primary-opacity",
-            }}
-          >
-            <FaHeart /> REMOVE FROM FAVORITES
-          </button>
+          {favoriteButton}
         </div>
       </div>
     </Card>

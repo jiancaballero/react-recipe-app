@@ -9,7 +9,6 @@ const RecipeList = ({ recipes, favoriteMode, recipeData }) => {
       {recipes.map((recipe) => (
         <RecipeItem
           key={recipe.recipe.uri}
-          
           id={recipe._links.self.href}
           image={recipe.recipe?.image}
           name={recipe.recipe?.label}
@@ -19,6 +18,7 @@ const RecipeList = ({ recipes, favoriteMode, recipeData }) => {
           dishType={recipe.recipe?.dishType}
           cuisineType={recipe.recipe?.cuisineType}
           favoriteMode={favoriteMode}
+          isFavorite={recipe.isFavorite}
         />
       ))}
     </div>

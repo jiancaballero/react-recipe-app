@@ -18,33 +18,31 @@ import { useDispatch, useSelector } from "react-redux";
 import useHttp from "../../hooks/use-http";
 import { useParams } from "react-router";
 
-let initialLoad = true;
 const MainContent = (props) => {
   let favoritesIDs = [];
-  const [recipes, setRecipes] = useState([]);
+
   const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
   const [searchInput, setSearchInput] = useState("beef");
   const [favoriteRecipes, setFavoriteRecipes] = useState([favoritesIDs]);
+  const [searchedRecipe, setSearchRecipe] = useState([]);
   const getSearchInput = (input) => {
     setSearchInput(input);
   };
-
-  const displayRecipes = (recipeData) => {
-    const searchedRecipe = recipeData.data.hits;
-
-    // compare searched recipe ID to favorites
-    // if match: create new property (isfavorite) to that object
-    let transformedSearchRecipe = searchedRecipe.map((recipe) => {
-      if (favoriteRecipes.includes(recipe.recipe.uri)) {
-        return { ...recipe, isFavorite: true };
-      }
+  // compare searched recipe ID to favorites
+  // if match: create new property (isfavorite) to that object
+  debugger;
+  let transformedSearchRecipe = searchedRecipe.map((recipe) => {
+    if (favoriteRecipes.includes(recipe.recipe.uri)) {
+      console.log("pumasok");
+      return { ...recipe, isFavorite: true };
+    } else {
       return recipe;
-    });
-    console.log(transformedSearchRecipe);
-    // set it to new recipe state
-    // setRecipes(recipeData.data.hits);
-    // setRecipeData(recipeData.data);
+    }
+  });
+
+  const getSearchedRecipes = (recipeData) => {
+    setSearchRecipe(recipeData.data.hits);
   };
 
   //API CALL using custom hook
@@ -56,7 +54,7 @@ const MainContent = (props) => {
         method: "GET",
         endpoint: `https://api.edamam.com/api/recipes/v2?type=public&q=${searchInput}%20&app_id=560ff047&app_key=e3fdbdf07a147da690d189b06767d81e&tandom=true`,
       },
-      displayRecipes
+      getSearchedRecipes
     );
   }, [fetchRecipe, searchInput]);
 
@@ -66,6 +64,7 @@ const MainContent = (props) => {
         favoritesIDs.push(recipe.recipe.recipe.uri);
       });
     });
+
     setFavoriteRecipes(favoritesIDs);
   }, [searchInput]);
 
@@ -76,7 +75,8 @@ const MainContent = (props) => {
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
   const currentRecipe =
-    recipes.length > 0 && recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+    transformedSearchRecipe.length > 0 &&
+    transformedSearchRecipe.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -84,9 +84,9 @@ const MainContent = (props) => {
 
   // CONDITIONAL RENDERS
   const banner =
-    recipes.length > 0 ? (
+    transformedSearchRecipe.length > 0 ? (
       <h1>
-        {recipes.length} <span>Recipes Found</span>
+        {transformedSearchRecipe.length} <span>Recipes Found</span>
       </h1>
     ) : (
       <h1>
@@ -94,7 +94,7 @@ const MainContent = (props) => {
       </h1>
     );
   const content =
-    recipes.length > 0 ? (
+    transformedSearchRecipe.length > 0 ? (
       <RecipeList recipes={currentRecipe} recipeData={recipeData} />
     ) : (
       <h1>No Results Found</h1>
@@ -115,10 +115,10 @@ const MainContent = (props) => {
           {content}
         </main>
       )}
-      {recipes.length > 0 && !isLoading && (
+      {transformedSearchRecipe.length > 0 && !isLoading && (
         <Pagination
           recipesPerPage={recipesPerPage}
-          totalRecipes={recipes.length}
+          totalRecipes={transformedSearchRecipe.length}
           paginate={paginate}
         />
       )}

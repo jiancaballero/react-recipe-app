@@ -3,12 +3,12 @@ import "./RecipeList.css";
 import RecipeItem from "./RecipeItem";
 
 const RecipeList = ({ recipes, favoriteMode, recipeData }) => {
-
   return (
     <div className="recipeList__container">
       {recipes.map((recipe) => (
         <RecipeItem
           key={recipe.recipe.uri}
+          recipeID={recipe.recipeID}
           id={recipe._links.self.href}
           image={recipe.recipe?.image}
           name={recipe.recipe?.label}

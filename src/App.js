@@ -12,6 +12,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { AuthContext } from "./context/auth-context";
+import Home from "./recipe/pages/Home";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,10 +46,10 @@ function App() {
             path="/:uid/home"
             exact
             element={
-              <MainContent
+              <Home
                 bannerTitle={"Discover"}
                 bannerTitleSpan={"Recipes"}
-                favoriteMode={false}
+               
               />
             }
           />

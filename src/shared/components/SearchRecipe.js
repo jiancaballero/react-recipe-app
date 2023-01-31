@@ -2,13 +2,12 @@ import React, { useRef, useState } from "react";
 import "./SearchRecipe.css";
 import { BiSearch } from "react-icons/bi";
 
-
 const SearchRecipe = (props) => {
   const searchInputRef = useRef();
   const submitSearch = (e) => {
     e.preventDefault();
-    const { passSearchInput } = props;
-    passSearchInput(searchInputRef.current.value);
+    const { searchInput } = props;
+    searchInput(searchInputRef.current.value);
     searchInputRef.current.value = "";
   };
   return (

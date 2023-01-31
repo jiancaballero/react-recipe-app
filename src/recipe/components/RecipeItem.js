@@ -63,6 +63,7 @@ const RecipeItem = (props) => {
   }, [props.id]);
 
   const removeFromFavoriteHandler = useCallback(() => {
+    
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
       .then((res) => {
@@ -124,7 +125,12 @@ const RecipeItem = (props) => {
         <div className="favorites-button-group">
           <Link
             to={`/recipe/details/${uid}/${props.id}`}
-            state={{ recipeID: id, favorited: isFavorite, recipeData: recipeData }}
+            state={{
+              recipeID: id,
+              favorited: isFavorite,
+              recipeData: recipeData,
+              id: props.id,
+            }}
           >
             <div>View Details</div>
           </Link>

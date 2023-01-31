@@ -66,6 +66,7 @@ const addFavoriteRecipe = async (req, res, next) => {
 // REMOVING FAVORITE RECIPE
 const removeFavoriteRecipe = async (req, res, next) => {
   const _id = req.params.rid;
+  console.log(`recipe id working: ${_id}`);
   let recipe;
   try {
     recipe = await Recipe.findById({ _id }).populate("uid");

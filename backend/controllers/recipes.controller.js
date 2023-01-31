@@ -64,7 +64,6 @@ const addFavoriteRecipe = async (req, res, next) => {
 
 // REMOVING FAVORITE RECIPE
 const removeFavoriteRecipe = async (req, res, next) => {
-  debugger;
   const _id = req.params.rid;
   let recipe;
   try {

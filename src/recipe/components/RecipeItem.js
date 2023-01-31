@@ -62,7 +62,7 @@ const RecipeItem = (props) => {
       }
     });
   };
-  // TODO: get the id from
+  
   const removeFromFavoriteHandler = () => {
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)

@@ -20,19 +20,31 @@ import { useParams } from "react-router";
 
 let initialLoad = true;
 const MainContent = (props) => {
-  let favorites = [];
+  let favoritesIDs = [];
   const [recipes, setRecipes] = useState([]);
   const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
   const [searchInput, setSearchInput] = useState("beef");
-
+  const [favoriteRecipes, setFavoriteRecipes] = useState([favoritesIDs]);
   const getSearchInput = (input) => {
     setSearchInput(input);
   };
 
   const displayRecipes = (recipeData) => {
-    setRecipes(recipeData.data.hits);
-    setRecipeData(recipeData.data);
+    const searchedRecipe = recipeData.data.hits;
+
+    // compare searched recipe ID to favorites
+    // if match: create new property (isfavorite) to that object
+    let transformedSearchRecipe = searchedRecipe.map((recipe) => {
+      if (favoriteRecipes.includes(recipe.recipe.uri)) {
+        return { ...recipe, isFavorite: true };
+      }
+      return recipe;
+    });
+    console.log(transformedSearchRecipe);
+    // set it to new recipe state
+    // setRecipes(recipeData.data.hits);
+    // setRecipeData(recipeData.data);
   };
 
   //API CALL using custom hook
@@ -47,6 +59,15 @@ const MainContent = (props) => {
       displayRecipes
     );
   }, [fetchRecipe, searchInput]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
+      res.data.forEach((recipe) => {
+        favoritesIDs.push(recipe.recipe.recipe.uri);
+      });
+    });
+    setFavoriteRecipes(favoritesIDs);
+  }, [searchInput]);
 
   // PAGINATION LOGIC
 

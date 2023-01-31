@@ -170,6 +170,9 @@ a {
 
 .favorites-button-group button:first-of-type {
   margin-bottom: 1.5em;
+  background: #fff;
+  border: 1px solid var(--primary);
+  color: var(--primary);
 }
 .favorites-button-group button:first-of-type:hover {
   background: var(--primary-hover);

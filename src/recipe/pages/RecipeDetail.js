@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 import Header from "../../shared/components/Header";
 import {
   FaFireAlt,
@@ -20,13 +20,13 @@ import Spinner from "../../UI/components/Spinner";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const location = useLocation();
+  const [recipeData, setRecipeData] = useState(props.recipeData);
   const recipeID = location.state.recipeID;
-  const favorited = location.state.favorited;
   const { uid } = useParams();
+  const [favorited, setIsFavorited] = useState(location.state.favorited);
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
   const getRecipeDetail = (recipeDetails) => {
-    
     setRecipes(recipeDetails.data.recipe);
   };
   useEffect(() => {
@@ -39,13 +39,6 @@ const RecipeDetail = (props) => {
     );
   }, [fetchRecipeDetail, recipeID]);
 
-  const updateIsFavoriteHandler = () => {
-    if (favorited) {
-      location.state.updateIsFavorite(false);
-    } else {
-      location.state.updateIsFavorite(true);
-    }
-  };
   const calorie = isNaN(Math.floor(recipes.calories))
     ? "No calories"
     : Math.floor(recipes.calories) + " calories";
@@ -89,7 +82,44 @@ const RecipeDetail = (props) => {
         </li>
       );
     });
+  const addToFavoriteHandler = useCallback(() => {
+    axios.get(props.id).then((res) => {
+      if (res.status == 200) {
+        setRecipeData(res.data);
+        setIsFavorited(!favorited);
+      }
+    });
+  }, [props.id]);
 
+  const removeFromFavoriteHandler = useCallback(() => {
+    axios
+      .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
+      .then((res) => {
+        if (res.status == 200) {
+          alert(res.data.message);
+          setIsFavorited(!favorited);
+        } else {
+          alert(res.error);
+        }
+      });
+  }, [props.recipeID]);
+
+  // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
+  const favoriteButton = !!favorited ? (
+    <button onClick={addToFavoriteHandler}>
+      <FaHeart /> ADD TO FAVORITES
+    </button>
+  ) : (
+    <button
+      onClick={removeFromFavoriteHandler}
+      style={{
+        background: "var(--primary)",
+        color: "var(--primary-opacity",
+      }}
+    >
+      <FaHeart /> REMOVE FROM FAVORITES
+    </button>
+  );
   return (
     <Fragment>
       <Header />
@@ -149,32 +179,7 @@ const RecipeDetail = (props) => {
           </div>
 
           <div className={classes["favorites-button-group"]}>
-            {!favorited && (
-              <button
-                onClick={updateIsFavoriteHandler}
-                style={{
-                  color: "var(--primary)",
-                  background: "#fff",
-                  border: "1px solid var(--primary)",
-                }}
-              >
-                <div>
-                  <FaRegHeart />
-                  Add to favorites
-                </div>
-              </button>
-            )}
-            {favorited && (
-              <button
-                onClick={updateIsFavoriteHandler}
-                style={{
-                  background: "var(--primary)",
-                  color: "var(--primary-opacity",
-                }}
-              >
-                <FaHeart /> REMOVE FROM FAVORITES
-              </button>
-            )}
+            {favoriteButton}
             <Link to={`/${uid}/home`}>
               <span>
                 <FaArrowLeft /> Back to Search Recipes

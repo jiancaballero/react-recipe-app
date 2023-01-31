@@ -124,7 +124,7 @@ const RecipeItem = (props) => {
         <div className="favorites-button-group">
           <Link
             to={`/recipe/details/${uid}/${props.id}`}
-            state={{ recipeID: id, favorited: isFavorite }}
+            state={{ recipeID: id, favorited: isFavorite, recipeData: recipeData }}
           >
             <div>View Details</div>
           </Link>

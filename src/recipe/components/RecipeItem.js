@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Card from "../../UI/components/Card";
 import {
@@ -13,11 +13,10 @@ import "./RecipeItem.css";
 import axios from "axios";
 
 const RecipeItem = (props) => {
-  const { isFavorite } = props;
   const { uid } = useParams();
   const { id } = props;
   const [recipeData, setRecipeData] = useState({});
-
+  const [isFavorite, setIsFavorite] = useState(!props.isFavorite);
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
     : Math.floor(props.calories) + " calories";
@@ -54,27 +53,34 @@ const RecipeItem = (props) => {
         });
     }
   }, [recipeData]);
-  const addToFavoriteHandler = () => {
+  const addToFavoriteHandler = useCallback(() => {
     axios.get(props.id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
+        setIsFavorite(!isFavorite);
       }
     });
-  };
+  }, [props.id]);
 
-  const removeFromFavoriteHandler = () => {
+  const removeFromFavoriteHandler = useCallback(() => {
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
       .then((res) => {
         if (res.status == 200) {
           alert(res.data.message);
+          setIsFavorite(!isFavorite);
         } else {
           alert(res.error);
         }
       });
-  };
+  }, [props.recipeID]);
 
+  // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
   const favoriteButton = !!isFavorite ? (
+    <button onClick={addToFavoriteHandler}>
+      <FaHeart /> ADD TO FAVORITES
+    </button>
+  ) : (
     <button
       onClick={removeFromFavoriteHandler}
       style={{
@@ -83,10 +89,6 @@ const RecipeItem = (props) => {
       }}
     >
       <FaHeart /> REMOVE FROM FAVORITES
-    </button>
-  ) : (
-    <button onClick={addToFavoriteHandler}>
-      <FaHeart /> ADD TO FAVORITES
     </button>
   );
   return (

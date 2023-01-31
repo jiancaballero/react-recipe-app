@@ -20,7 +20,7 @@ import { useParams } from "react-router";
 
 const MainContent = (props) => {
   let favoritesIDs = [];
-
+  
   const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
   const [searchInput, setSearchInput] = useState("beef");
@@ -29,9 +29,9 @@ const MainContent = (props) => {
   const getSearchInput = (input) => {
     setSearchInput(input);
   };
+
   // compare searched recipe ID to favorites
   // if match: create new property (isfavorite) to that object
-  debugger;
   let transformedSearchRecipe = searchedRecipe.map((recipe) => {
     if (favoriteRecipes.includes(recipe.recipe.uri)) {
       console.log("pumasok");

@@ -19,10 +19,11 @@ import useHttp from "../../hooks/use-http";
 import Spinner from "../../UI/components/Spinner";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
-  const location = useLocation();
-  const [recipeData, setRecipeData] = useState(props.recipeData);
-  const recipeID = location.state.recipeID;
+  const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
+  const location = useLocation();
+  const id = location.state.id;
+  const recipeID = location.state.recipeID;
   const [favorited, setIsFavorited] = useState(location.state.favorited);
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
@@ -82,15 +83,33 @@ const RecipeDetail = (props) => {
         </li>
       );
     });
+
+  // ADDING RECIPE TO DATABASE
+  useEffect(() => {
+    if (Object.keys(recipeData).length !== 0) {
+      axios
+        .post(`http://localhost:8080/api/recipes/${uid}`, {
+          recipe: recipeData,
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            alert(res.data.message);
+          } else {
+            alert(res.error);
+          }
+        });
+      setIsFavorited(!favorited);
+    }
+  }, [recipeData]);
+
+  // GET ALL FAVORITES FROM DATABASE
   const addToFavoriteHandler = useCallback(() => {
-    axios.get(props.id).then((res) => {
+    axios.get(id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
-        setIsFavorited(!favorited);
       }
     });
-  }, [props.id]);
-
+  }, [id]);
   const removeFromFavoriteHandler = useCallback(() => {
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
@@ -106,10 +125,6 @@ const RecipeDetail = (props) => {
 
   // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
   const favoriteButton = !!favorited ? (
-    <button onClick={addToFavoriteHandler}>
-      <FaHeart /> ADD TO FAVORITES
-    </button>
-  ) : (
     <button
       onClick={removeFromFavoriteHandler}
       style={{
@@ -118,6 +133,10 @@ const RecipeDetail = (props) => {
       }}
     >
       <FaHeart /> REMOVE FROM FAVORITES
+    </button>
+  ) : (
+    <button onClick={addToFavoriteHandler}>
+      <FaHeart /> ADD TO FAVORITES
     </button>
   );
   return (

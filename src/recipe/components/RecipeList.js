@@ -17,7 +17,6 @@ const RecipeList = ({ recipes, favoriteMode, recipeData }) => {
           mealType={recipe.recipe?.mealType}
           dishType={recipe.recipe?.dishType}
           cuisineType={recipe.recipe?.cuisineType}
-         
           isFavorite={recipe.isFavorite}
         />
       ))}

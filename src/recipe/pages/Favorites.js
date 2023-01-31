@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { recipeActions } from "../../redux/store/recipes-slice";
 import useHttp from "../../hooks/use-http";
 import { useParams } from "react-router";
-import FavoriteList from "../components/FavoriteList";
+
 import MainContent from "../../shared/components/MainContent";
 
 let initialLoad = true;
@@ -35,6 +35,7 @@ const Favorites = (props) => {
       recipe: data.recipe.recipe,
       _links: data.recipe._links,
       uid: data.uid,
+      isFavorite: data.isFavorite,
     });
     setRecipes(transformedRecipeData);
   };

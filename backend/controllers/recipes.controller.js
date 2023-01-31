@@ -34,6 +34,7 @@ const addFavoriteRecipe = async (req, res, next) => {
   const favoritedRecipe = new Recipe({
     uid,
     recipe,
+    isFavorite: true,
   });
   let user;
   try {

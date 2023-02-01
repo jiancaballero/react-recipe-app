@@ -24,6 +24,7 @@ const RecipeDetail = (props) => {
   const location = useLocation();
   const id = location.state.id;
   const recipeID = location.state.recipeID;
+  const favoriteID = location.state.favoriteID;
   const [favorited, setIsFavorited] = useState(location.state.favorited);
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
@@ -112,7 +113,7 @@ const RecipeDetail = (props) => {
   }, [id]);
   const removeFromFavoriteHandler = useCallback(() => {
     axios
-      .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
+      .delete(`http://localhost:8080/api/recipes/${favoriteID}`)
       .then((res) => {
         if (res.status == 200) {
           alert(res.data.message);
@@ -121,7 +122,7 @@ const RecipeDetail = (props) => {
           alert(res.error);
         }
       });
-  }, [props.recipeID]);
+  }, [favoriteID]);
 
   // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
   const favoriteButton = !!favorited ? (

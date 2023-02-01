@@ -2,12 +2,12 @@ import React from "react";
 import "./RecipeList.css";
 import RecipeItem from "./RecipeItem";
 
-const RecipeList = ({ recipes, favoriteMode, recipeData }) => {
+const RecipeList = ({ recipes }) => {
   return (
     <div className="recipeList__container">
       {recipes.map((recipe) => (
         <RecipeItem
-          key={recipe.recipe.uri}
+          key={recipe.recipeID}
           recipeID={recipe.recipeID}
           id={recipe._links.self.href}
           image={recipe.recipe?.image}

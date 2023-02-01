@@ -46,38 +46,38 @@ const RecipeItem = (props) => {
         })
         .then((res) => {
           if (res.status == 201) {
-            setIsFavorite(!isFavorite);
             alert(res.data.message);
+            console.log(res.data);
           } else {
             alert(res.error);
           }
         });
+      setIsFavorite(!isFavorite);
     }
   }, [recipeData]);
 
   // GET ALL FAVORITES FROM DATABASE
-  const addToFavoriteHandler = useCallback(() => {
+  const addToFavoriteHandler = () => {
     axios.get(props.id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
       }
     });
-  }, [props.id]);
+  };
 
   // REMOVING RECIPES TO DATABASE
-  const removeFromFavoriteHandler = useCallback(() => {
-    console.log(props.recipeID);
+  const removeFromFavoriteHandler = () => {
     axios
       .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
       .then((res) => {
         if (res.status == 200) {
-          setIsFavorite(!isFavorite);
           alert(res.data.message);
         } else {
           alert(res.error);
         }
       });
-  }, [props.recipeID]);
+    setIsFavorite(!isFavorite);
+  };
 
   // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
   const favoriteButton = isFavorite ? (
@@ -131,8 +131,8 @@ const RecipeItem = (props) => {
             state={{
               recipeID: id,
               favorited: isFavorite,
-              recipeData: recipeData,
               id: props.id,
+              favoriteID: props.recipeID,
             }}
           >
             <div>View Details</div>

@@ -46,10 +46,12 @@ const Home = (props) => {
   // GET ALL FAVORITE RECIPE FROM DATABASE
   useEffect(() => {
     axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
-      res.data.forEach((recipe) => {
-        favoritesData.push(recipe);
-      });
-      dispatch(recipeActions.resetFavoriteRecipes(favoritesData));
+      if (res.data) {
+        res.data.forEach((recipe) => {
+          favoritesData.push(recipe);
+        });
+        dispatch(recipeActions.resetFavoriteRecipes(favoritesData));
+      }
     });
   }, []);
 

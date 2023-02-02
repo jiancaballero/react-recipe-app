@@ -12,14 +12,14 @@ const useHttp = () => {
         const response = await axios
           .get(request.endpoint)
           .catch((err) => console.log(err));
-        console.log(response);
+
         setIsLoading(false);
         handleResponse(response);
       } else if (request.method === "POST") {
         const response = await axios
           .put(request.endpoint, request.body)
           .catch((err) => console.log(err));
-        console.log(response);
+
         setIsLoading(false);
       }
     } catch (error) {

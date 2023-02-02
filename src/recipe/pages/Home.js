@@ -8,6 +8,7 @@ import MainContent from "../../shared/components/MainContent";
 
 const Home = (props) => {
   const favoriteRecipes = useSelector((state) => state.recipes.favorites);
+
   const { uid } = useParams();
   const dispatch = useDispatch();
 
@@ -16,7 +17,7 @@ const Home = (props) => {
   // search state from reduce store
   const searchInput = useSelector((state) => state.recipes.searchInput);
 
-  // CALLING REDUCER FUNCTION SEARCH RECIPE DATA
+  // CALLING REDUCER FUNCTION SEARCH RECIPE DATA TO TRANSFORM DATA
   const getSearchedRecipes = (recipeData) => {
     dispatch(
       recipeActions.searchRecipeData({
@@ -41,13 +42,14 @@ const Home = (props) => {
     );
   }, [fetchRecipe, searchInput, favoriteRecipes]);
 
+  const favoritesData = [];
   // GET ALL FAVORITE RECIPE FROM DATABASE
   useEffect(() => {
-    console.log("nagrender din");
     axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
       res.data.forEach((recipe) => {
-        dispatch(recipeActions.addToFavorites(recipe));
+        favoritesData.push(recipe);
       });
+      dispatch(recipeActions.resetFavoriteRecipes(favoritesData));
     });
   }, []);
 

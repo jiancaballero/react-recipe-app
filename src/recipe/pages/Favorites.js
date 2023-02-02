@@ -22,42 +22,20 @@ import MainContent from "../../shared/components/MainContent";
 
 let initialLoad = true;
 const Favorites = (props) => {
-  const [recipes, setRecipes] = useState([]);
   const { uid } = useParams();
-  const [isLoading, setIsloading] = useState(false);
-  const passSearchInput = (input) => {};
+  const recipes = useSelector((state) => state.recipes.favorites);
+  // // TRANSFORM DATA FROM FAVORITES REDUX STORE
+  const transformedRecipeData = recipes.map((recipe) => {
+    return {
+      recipeID: recipe.id,
+      recipe: recipe.recipe.recipe,
+      _links: recipe.recipe._links,
+      uid: recipe.uid,
+      isFavorite: recipe.isFavorite,
+    };
+  });
 
-  // TRANSFORM DATA FROM DB
-  let transformedRecipeData = [];
-  const transformData = (data) => {
-    transformedRecipeData.push({
-      recipeID: data.id,
-      recipe: data.recipe.recipe,
-      _links: data.recipe._links,
-      uid: data.uid,
-      isFavorite: data.isFavorite,
-    });
-    setRecipes(transformedRecipeData);
-  };
-
-  //API CALL TO GET ALL FAVORITE RECIPES
-  useEffect(() => {
-    setIsloading(true);
-    axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
-      res.data.forEach((recipe) => {
-        transformData(recipe);
-      });
-      setIsloading(false);
-    });
-  }, []);
-
-  return (
-    <MainContent
-      isLoading={isLoading}
-      passSearchInput={passSearchInput}
-      recipes={recipes}
-    />
-  );
+  return <MainContent recipes={transformedRecipeData} />;
 };
 
-export default Favorites;
+export default React.memo(Favorites);

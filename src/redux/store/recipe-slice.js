@@ -9,13 +9,16 @@ const recipeSlice = createSlice({
   name: "recipes",
   initialState,
   reducers: {
+    resetFavoriteRecipes(state, action) {
+      state.favorites = [...action.payload];
+    },
     getSearchInput(state, action) {
       state.searchInput = action.payload;
     },
     searchRecipeData(state, action) {
       const searchedRecipe = action.payload.searchedRecipes;
       const favoriteRecipes = current(state.favorites);
-      console.log(favoriteRecipes);
+
       // get ALL recipe URI from favorites
       const favoriteRecipesURI = favoriteRecipes.map(
         (recipe) => recipe.recipe.recipe.uri

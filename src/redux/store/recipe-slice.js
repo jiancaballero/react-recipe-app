@@ -36,9 +36,11 @@ const recipeSlice = createSlice({
       state.recipes = transformedSearchRecipe;
     },
     addToFavorites(state, action) {
+      console.log(action.payload);
       state.favorites = [...state.favorites, action.payload];
     },
     removeFromFavorites(state, action) {
+      console.log(action.payload);
       const recipeID = action.payload;
       const filteredFavorites = state.favorites.filter(
         (favorite) => favorite.id !== recipeID

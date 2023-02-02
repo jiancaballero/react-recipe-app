@@ -17,11 +17,14 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import useHttp from "../../hooks/use-http";
 import Spinner from "../../UI/components/Spinner";
+import { useDispatch } from "react-redux";
+import { recipeActions } from "../../redux/store/recipe-slice";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [recipeData, setRecipeData] = useState({});
   const { uid } = useParams();
   const location = useLocation();
+  const dispatch = useDispatch();
   const id = location.state.id;
   const recipeID = location.state.recipeID;
   const favoriteID = location.state.favoriteID;
@@ -95,6 +98,7 @@ const RecipeDetail = (props) => {
         .then((res) => {
           if (res.status == 201) {
             alert(res.data.message);
+            dispatch(recipeActions.addToFavorites(res.data.recipe));
           } else {
             alert(res.error);
           }
@@ -118,6 +122,7 @@ const RecipeDetail = (props) => {
         if (res.status == 200) {
           alert(res.data.message);
           setIsFavorited(!favorited);
+          dispatch(recipeActions.removeFromFavorites(favoriteID));
         } else {
           alert(res.error);
         }

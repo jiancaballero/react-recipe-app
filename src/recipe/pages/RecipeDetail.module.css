@@ -278,7 +278,10 @@ a {
     padding-top: 1.5em;
   }
   .recipe-ingredients ul {
-    flex-direction: row;
+    /* flex-direction: column; */
+    justify-content: flex-start;
+  }
+  .recipe-ingredients span {
     justify-content: flex-start;
   }
 }

@@ -35,7 +35,13 @@ const Favorites = (props) => {
     };
   });
 
-  return <MainContent recipes={transformedRecipeData} />;
+  return (
+    <MainContent
+      recipes={transformedRecipeData}
+      bannerTitle={"All"}
+      bannerTitleSpan={"Favorites"}
+    />
+  );
 };
 
 export default React.memo(Favorites);

@@ -1,13 +1,15 @@
 import React, { useRef, useState } from "react";
 import "./SearchRecipe.css";
 import { BiSearch } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { recipeActions } from "../../redux/store/recipe-slice";
 
 const SearchRecipe = (props) => {
+  const dispatch = useDispatch();
   const searchInputRef = useRef();
   const submitSearch = (e) => {
     e.preventDefault();
-    const { searchInput } = props;
-    searchInput(searchInputRef.current.value);
+    dispatch(recipeActions.getSearchInput(searchInputRef.current.value));
     searchInputRef.current.value = "";
   };
   return (

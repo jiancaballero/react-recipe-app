@@ -19,12 +19,7 @@ import useHttp from "../../hooks/use-http";
 import { useParams } from "react-router";
 
 const MainContent = (props) => {
-  const { recipes, passSearchInput, isLoading } = props;
-  console.log(recipes);
-  // PASSING INPUTS TO PARENT COMPONENTS
-  const getSearchInput = (input) => {
-    passSearchInput(input);
-  };
+  const { recipes, isLoading } = props;
 
   // PAGINATION LOGIC
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,10 +55,7 @@ const MainContent = (props) => {
       <Header />
       <div className="banner-container" id="recipes">
         <div className="banner-title">{banner}</div>
-        <SearchRecipe
-          className="search__container"
-          searchInput={getSearchInput}
-        />
+        <SearchRecipe className="search__container" />
       </div>
       {isLoading && <Spinner />}
       {!isLoading && (

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import Card from "../../UI/components/Card";
 import {
@@ -11,12 +11,17 @@ import {
 } from "react-icons/fa";
 import "./RecipeItem.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { recipeActions } from "../../redux/store/recipe-slice";
 
 const RecipeItem = (props) => {
   const { uid } = useParams();
   const { id } = props;
   const [recipeData, setRecipeData] = useState({});
   const [isFavorite, setIsFavorite] = useState(!!props.isFavorite);
+  const favorites = useSelector((state) => state.recipes.favorites);
+  // console.log(favorites);
+  const dispatch = useDispatch();
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
     : Math.floor(props.calories) + " calories";
@@ -47,17 +52,17 @@ const RecipeItem = (props) => {
         .then((res) => {
           if (res.status == 201) {
             alert(res.data.message);
-            console.log(res.data);
+            setIsFavorite(!isFavorite);
+            dispatch(recipeActions.addToFavorites(res.data.recipe));
           } else {
             alert(res.error);
           }
         });
-      setIsFavorite(!isFavorite);
     }
   }, [recipeData]);
 
-  // GET ALL FAVORITES FROM DATABASE
-  const addToFavoriteHandler = () => {
+  // GET ALL RECIPES FROM THIRD PARTY API
+  const addToFavoriteHandler = (e) => {
     axios.get(props.id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
@@ -72,6 +77,7 @@ const RecipeItem = (props) => {
       .then((res) => {
         if (res.status == 200) {
           alert(res.data.message);
+          dispatch(recipeActions.removeFromFavorites(props.recipeID));
         } else {
           alert(res.error);
         }

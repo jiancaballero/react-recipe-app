@@ -1,45 +1,37 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import useHttp from "../../hooks/use-http";
+import { recipeActions } from "../../redux/store/recipe-slice";
 import MainContent from "../../shared/components/MainContent";
 
 const Home = (props) => {
-  let favorites = [];
+  const favoriteRecipes = useSelector((state) => state.recipes.favorites);
   const { uid } = useParams();
-  const [favoriteRecipes, setFavoriteRecipes] = useState(favorites);
-  const [searchedRecipe, setSearchRecipe] = useState([]);
-  const [searchInput, setSearchInput] = useState("beef");
-  const passSearchInput = (input) => {
-    setSearchInput(input);
-  };
+  const dispatch = useDispatch();
 
-  //get ALL recipe URI from favorites
-  const favoriteRecipesURI = favoriteRecipes.map(
-    (recipe) => recipe.recipe.recipe.uri
-  );
+  // recipes state from redux store
+  const transformedSearchRecipe = useSelector((state) => state.recipes.recipes);
+  // search state from reduce store
+  const searchInput = useSelector((state) => state.recipes.searchInput);
 
-  // compare searched recipe URI to favorites URI
-  // if match: create new property (isfavorite) to that object and include the recipe ID created from DB
-  let transformedSearchRecipe = searchedRecipe.map((recipe) => {
-    if (favoriteRecipesURI.includes(recipe.recipe.uri)) {
-      const favoriteRecipeID = favoriteRecipes.find(
-        (favorite) => favorite.recipe.recipe.uri === recipe.recipe.uri
-      ).id;
-      return { ...recipe, isFavorite: true, recipeID: favoriteRecipeID };
-    } else {
-      return recipe;
-    }
-  });
-
+  // CALLING REDUCER FUNCTION SEARCH RECIPE DATA
   const getSearchedRecipes = (recipeData) => {
-    setSearchRecipe(recipeData.data.hits);
+    dispatch(
+      recipeActions.searchRecipeData({
+        searchedRecipes: recipeData.data.hits,
+        favoriteRecipes,
+      })
+    );
   };
 
   //API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipe } = useHttp();
 
+  // GET ALL RECIPE FROM THIRD PARTY API
   useEffect(() => {
+    console.log("re-render");
     fetchRecipe(
       {
         method: "GET",
@@ -47,22 +39,21 @@ const Home = (props) => {
       },
       getSearchedRecipes
     );
-  }, [fetchRecipe, searchInput]);
+  }, [fetchRecipe, searchInput, favoriteRecipes]);
 
+  // GET ALL FAVORITE RECIPE FROM DATABASE
   useEffect(() => {
+    console.log("nagrender din");
     axios.get(`http://localhost:8080/api/recipes/${uid}`).then((res) => {
       res.data.forEach((recipe) => {
-        favorites.push(recipe);
+        dispatch(recipeActions.addToFavorites(recipe));
       });
     });
-
-    setFavoriteRecipes(favorites);
-  }, [searchInput]);
+  }, []);
 
   return (
     <MainContent
       recipes={transformedSearchRecipe}
-      passSearchInput={passSearchInput}
       isLoading={isLoading}
       bannerTitle={props.bannerTitle}
       bannerTitleSpan={props.bannerTitleSpan}

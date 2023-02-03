@@ -100,7 +100,7 @@ const RecipeDetail = (props) => {
             alert(res.data.message);
             dispatch(recipeActions.addToFavorites(res.data.recipe));
           } else {
-            alert(res.error);
+            alert(res.error.message);
           }
         });
       setIsFavorited(!favorited);
@@ -124,7 +124,7 @@ const RecipeDetail = (props) => {
           setIsFavorited(!favorited);
           dispatch(recipeActions.removeFromFavorites(favoriteID));
         } else {
-          alert(res.error);
+          alert(res.error.message);
         }
       });
   }, [favoriteID]);

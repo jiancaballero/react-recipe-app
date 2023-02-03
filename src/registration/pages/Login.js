@@ -4,11 +4,14 @@ import classes from "./Login.module.css";
 import Logo from "../../UI/components/Logo";
 import axios from "axios";
 import { AuthContext } from "../../context/auth-context";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../redux/store/auth-slice";
 
 const Login = () => {
   const auth = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onLoginHandler = (e) => {
     e.preventDefault();
@@ -20,13 +23,14 @@ const Login = () => {
       })
       .then((res) => {
         if (res.status == 201) {
-          alert("Login successful");
-
-          navigate(`/${res.data.userData.id}/home`);
+          alert(res.data.message);
+          console.log(res.data);
+          dispatch(authActions.login(res.data));
+          navigate(`/${res.data.uid}/home`);
         }
       })
       .catch((err) => {
-        alert("Login not successful. Please enter a correct email or password");
+        alert(err.message);
       });
   };
   return (

@@ -17,6 +17,8 @@ import { recipeActions } from "../../redux/store/recipe-slice";
 const RecipeItem = (props) => {
   const { uid } = useParams();
   const { id } = props;
+  const token = useSelector((state) => state.auth.token);
+
   const [recipeData, setRecipeData] = useState({});
   const [isFavorite, setIsFavorite] = useState(!!props.isFavorite);
   const favorites = useSelector((state) => state.recipes.favorites);
@@ -45,19 +47,24 @@ const RecipeItem = (props) => {
   // ADDING RECIPE TO DATABASE
   useEffect(() => {
     if (Object.keys(recipeData).length !== 0) {
-      axios
-        .post(`http://localhost:8080/api/recipes/${uid}`, {
-          recipe: recipeData,
-        })
+      axios({
+        method: "POST",
+        url: `http://localhost:8080/api/recipes/${uid}`,
+        data: { recipe: recipeData },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
         .then((res) => {
           if (res.status == 201) {
             alert(res.data.message);
             setIsFavorite(!isFavorite);
             dispatch(recipeActions.addToFavorites(res.data.recipe));
           } else {
-            alert(res.error);
+            alert(res.error.message);
           }
-        });
+        })
+        .catch((err) => alert(err.message));
     }
   }, [recipeData]);
 
@@ -72,8 +79,13 @@ const RecipeItem = (props) => {
 
   // REMOVING RECIPES TO DATABASE
   const removeFromFavoriteHandler = () => {
-    axios
-      .delete(`http://localhost:8080/api/recipes/${props.recipeID}`)
+    axios({
+      method: "DELETE",
+      url: `http://localhost:8080/api/recipes/${props.recipeID}`,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
       .then((res) => {
         if (res.status == 200) {
           alert(res.data.message);
@@ -81,7 +93,8 @@ const RecipeItem = (props) => {
         } else {
           alert(res.error);
         }
-      });
+      })
+      .catch((err) => alert(err.message));
     setIsFavorite(!isFavorite);
   };
 

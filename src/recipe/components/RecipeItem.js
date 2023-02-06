@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { recipeActions } from "../../redux/store/recipe-slice";
 
 const RecipeItem = (props) => {
-  const { uid } = useParams();
+  const uid = useSelector((state) => state.auth.uid);
   const { id } = props;
   const token = useSelector((state) => state.auth.token);
 
@@ -146,7 +146,7 @@ const RecipeItem = (props) => {
       <div className="recipe-card-action">
         <div className="favorites-button-group">
           <Link
-            to={`/recipe/details/${uid}/${props.id}`}
+            to={`/recipe/details/${props.id}`}
             state={{
               recipeID: id,
               favorited: isFavorite,

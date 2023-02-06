@@ -89,13 +89,13 @@ const SignUp = () => {
         })
         .then((res) => {
           if (res.status === 201) {
-        
             alert("Created account successfully");
             navigate(`/login`);
           } else {
             return alert("Account has already been taken. Please try again.");
           }
-        });
+        })
+        .catch((err) => alert(err.message));
     }
     if (firstNameState.trim() === "") {
       setIsValid((prevState) => {

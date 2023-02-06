@@ -8,33 +8,48 @@ import MainContent from "./shared/components/MainContent";
 import RecipeDetail from "././recipe/pages/RecipeDetail";
 import Favorites from "./recipe/pages/Favorites";
 import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Home from "./recipe/pages/Home";
+import { authActions } from "./redux/store/auth-slice";
 
 function App() {
   const token = useSelector((state) => state.auth.token);
-
+  const dispatch = useDispatch();
+  // SAVING DATA OF LOGGED IN USER
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    if (storedData && storedData.token) {
+      dispatch(
+        authActions.login({
+          uid: storedData.uid,
+          token: storedData.token,
+          firstName: storedData.firstName,
+        })
+      );
+    }
+  }, []);
   return (
     <Routes>
-      <Route path="*" exact element={<h1>404 No Page Found.</h1>} />
-      <Route path="/" exact element={<Registration />} />
-      <Route path="/login" exact element={<Login />} />
-      <Route path="/signup" exact element={<SignUp />} />
+      <>
+        <Route path="*" exact element={<h1>404 No Page Found.</h1>} />
+        <Route path="/" exact element={<Registration />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/signup" exact element={<SignUp />} />{" "}
+      </>
+
       {token && (
         <>
-          <Route path="/:uid/favorites" exact element={<Favorites />} />
-
+          <Route path="/favorites" exact element={<Favorites />} />
           <Route
-            path="/:uid/home"
+            path="/home"
             exact
             element={
               <Home bannerTitle={"Discover"} bannerTitleSpan={"Recipes"} />
             }
           />
-
-          <Route path="/recipe/details/:uid/:id*" element={<RecipeDetail />} />
+          <Route path="/recipe/details/:id*" element={<RecipeDetail />} />
         </>
       )}
     </Routes>

@@ -3,12 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
 import Logo from "../../UI/components/Logo";
 import axios from "axios";
-import { AuthContext } from "../../context/auth-context";
+
 import { useDispatch } from "react-redux";
 import { authActions } from "../../redux/store/auth-slice";
 
 const Login = () => {
-  const auth = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const dispatch = useDispatch();
@@ -24,9 +23,16 @@ const Login = () => {
       .then((res) => {
         if (res.status == 201) {
           alert(res.data.message);
-          console.log(res.data);
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({
+              uid: res.data.uid,
+              token: res.data.token,
+              firstName: res.data.firstName,
+            })
+          );
           dispatch(authActions.login(res.data));
-          navigate(`/${res.data.uid}/home`);
+          navigate(`/home`);
         }
       })
       .catch((err) => {

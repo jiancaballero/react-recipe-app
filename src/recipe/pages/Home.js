@@ -3,15 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import useHttp from "../../hooks/use-http";
+import { authActions } from "../../redux/store/auth-slice";
 import { recipeActions } from "../../redux/store/recipe-slice";
 import MainContent from "../../shared/components/MainContent";
 
 const Home = (props) => {
   const favoriteRecipes = useSelector((state) => state.recipes.favorites);
-
-  const { uid } = useParams();
+  const uid = useSelector((state) => state.auth.uid);
   const dispatch = useDispatch();
-
   // recipes state from redux store
   const transformedSearchRecipe = useSelector((state) => state.recipes.recipes);
   // search state from reduce store
@@ -32,7 +31,6 @@ const Home = (props) => {
 
   // GET ALL RECIPE FROM THIRD PARTY API
   useEffect(() => {
-    console.log("re-render");
     fetchRecipe(
       {
         method: "GET",

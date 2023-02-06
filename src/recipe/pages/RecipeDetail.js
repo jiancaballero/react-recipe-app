@@ -17,12 +17,13 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import useHttp from "../../hooks/use-http";
 import Spinner from "../../UI/components/Spinner";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { recipeActions } from "../../redux/store/recipe-slice";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [recipeData, setRecipeData] = useState({});
-  const { uid } = useParams();
+  const token = useSelector((state) => state.auth.token);
+  const uid = useSelector((state) => state.auth.uid);
   const location = useLocation();
   const dispatch = useDispatch();
   const id = location.state.id;
@@ -91,18 +92,21 @@ const RecipeDetail = (props) => {
   // ADDING RECIPE TO DATABASE
   useEffect(() => {
     if (Object.keys(recipeData).length !== 0) {
-      axios
-        .post(`http://localhost:8080/api/recipes/${uid}`, {
-          recipe: recipeData,
-        })
-        .then((res) => {
-          if (res.status == 201) {
-            alert(res.data.message);
-            dispatch(recipeActions.addToFavorites(res.data.recipe));
-          } else {
-            alert(res.error.message);
-          }
-        });
+      axios({
+        method: "POST",
+        url: `http://localhost:8080/api/recipes/${uid}`,
+        data: { recipe: recipeData },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }).then((res) => {
+        if (res.status == 201) {
+          alert(res.data.message);
+          dispatch(recipeActions.addToFavorites(res.data.recipe));
+        } else {
+          alert(res.error.message);
+        }
+      });
       setIsFavorited(!favorited);
     }
   }, [recipeData]);
@@ -205,7 +209,7 @@ const RecipeDetail = (props) => {
 
           <div className={classes["favorites-button-group"]}>
             {favoriteButton}
-            <Link to={`/${uid}/home`}>
+            <Link to={`/home`}>
               <span>
                 <FaArrowLeft /> Back to Search Recipes
               </span>

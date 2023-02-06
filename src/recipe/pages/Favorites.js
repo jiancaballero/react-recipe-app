@@ -20,9 +20,7 @@ import { useParams } from "react-router";
 
 import MainContent from "../../shared/components/MainContent";
 
-let initialLoad = true;
 const Favorites = (props) => {
-  const { uid } = useParams();
   const recipes = useSelector((state) => state.recipes.favorites);
   // // TRANSFORM DATA FROM FAVORITES REDUX STORE
   const transformedRecipeData = recipes.map((recipe) => {

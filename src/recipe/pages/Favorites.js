@@ -22,6 +22,7 @@ import MainContent from "../../shared/components/MainContent";
 
 const Favorites = (props) => {
   const recipes = useSelector((state) => state.recipes.favorites);
+
   // // TRANSFORM DATA FROM FAVORITES REDUX STORE
   const transformedRecipeData = recipes.map((recipe) => {
     return {

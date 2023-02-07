@@ -13,7 +13,7 @@ const SideDrawer = () => {
     <div className="side-drawer">
       <ul>
         <li>
-          <NavLink className=".active" to={`/home`}>
+          <NavLink className=".active" to={`/`}>
             <FaHome />
             Home
           </NavLink>

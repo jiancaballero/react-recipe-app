@@ -62,8 +62,9 @@ function App() {
                 </h1>
               }
             />
+            <Route path="/" exact element={<Registration />} />
             <Route path="/login" exact element={<Login />} />
-            <Route path="/signup" exact element={<SignUp />} />{" "}
+            <Route path="/signup" exact element={<SignUp />} />
           </>
         )}
       </>
@@ -72,7 +73,7 @@ function App() {
         <>
           <Route path="/favorites" exact element={<Favorites />} />
           <Route
-            path="/home"
+            path="/"
             exact
             element={
               <Home bannerTitle={"Discover"} bannerTitleSpan={"Recipes"} />
@@ -81,7 +82,6 @@ function App() {
           <Route path="/recipe/details/:id*" element={<RecipeDetail />} />
         </>
       )}
-      <Route path="/" exact element={<Registration />} />
     </Routes>
   );
 }

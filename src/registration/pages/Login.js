@@ -32,7 +32,7 @@ const Login = () => {
             })
           );
           dispatch(authActions.login(res.data));
-          navigate(`/home`);
+          navigate("/");
         }
       })
       .catch((err) => {

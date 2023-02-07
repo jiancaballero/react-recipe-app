@@ -22,16 +22,16 @@ import { recipeActions } from "../../redux/store/recipe-slice";
 const RecipeDetail = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [recipeData, setRecipeData] = useState({});
+  const [newAddedFavoriteID, setNewAddedFavoriteID] = useState(null);
   const token = useSelector((state) => state.auth.token);
   const uid = useSelector((state) => state.auth.uid);
   const location = useLocation();
   const dispatch = useDispatch();
   const id = location.state.id;
-  const [newAddedFavoriteID, setNewAddedFavoriteID] = useState(null);
   const recipeID = location.state.recipeID;
+  const [favorited, setIsFavorited] = useState(location.state.favorited);
   const favoriteID = location.state.favoriteID || newAddedFavoriteID;
 
-  const [favorited, setIsFavorited] = useState(location.state.favorited);
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
   const getRecipeDetail = (recipeDetails) => {
@@ -108,6 +108,7 @@ const RecipeDetail = (props) => {
             dispatch(recipeActions.addToFavorites(res.data.recipe));
             setNewAddedFavoriteID(res.data.recipe.id);
             setIsFavorited(!favorited);
+
             setRecipeData({});
           } else {
             alert(res.error.message);
@@ -136,6 +137,7 @@ const RecipeDetail = (props) => {
       if (res.status == 200) {
         alert(res.data.message);
         setIsFavorited(!favorited);
+
         dispatch(recipeActions.removeFromFavorites(favoriteID));
       } else {
         alert(res.error.message);

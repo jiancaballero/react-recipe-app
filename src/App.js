@@ -33,6 +33,13 @@ function App() {
   return (
     <Routes>
       <>
+        {!token && (
+          <Route
+            path="*"
+            exact
+            element={<h1>Unauthorized Access. Please login your account</h1>}
+          />
+        )}
         <Route path="*" exact element={<h1>404 No Page Found.</h1>} />
         <Route path="/" exact element={<Registration />} />
         <Route path="/login" exact element={<Login />} />

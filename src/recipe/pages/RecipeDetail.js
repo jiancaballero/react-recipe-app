@@ -27,8 +27,10 @@ const RecipeDetail = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const id = location.state.id;
+  const [newAddedFavoriteID, setNewAddedFavoriteID] = useState(null);
   const recipeID = location.state.recipeID;
-  const favoriteID = location.state.favoriteID;
+  const favoriteID = location.state.favoriteID || newAddedFavoriteID;
+
   const [favorited, setIsFavorited] = useState(location.state.favorited);
   // API CALL using custom hook
   const { isLoading, hasError, sendRequest: fetchRecipeDetail } = useHttp();
@@ -99,39 +101,47 @@ const RecipeDetail = (props) => {
         headers: {
           Authorization: "Bearer " + token,
         },
-      }).then((res) => {
-        if (res.status == 201) {
-          alert(res.data.message);
-          dispatch(recipeActions.addToFavorites(res.data.recipe));
-        } else {
-          alert(res.error.message);
-        }
-      });
-      setIsFavorited(!favorited);
+      })
+        .then((res) => {
+          if (res.status == 201) {
+            alert(res.data.message);
+            dispatch(recipeActions.addToFavorites(res.data.recipe));
+            setNewAddedFavoriteID(res.data.recipe.id);
+            setIsFavorited(!favorited);
+            setRecipeData({});
+          } else {
+            alert(res.error.message);
+          }
+        })
+        .catch((err) => alert(err.message));
     }
   }, [recipeData]);
 
   // GET ALL FAVORITES FROM DATABASE
-  const addToFavoriteHandler = useCallback(() => {
+  const addToFavoriteHandler = () => {
     axios.get(id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
       }
     });
-  }, [id]);
-  const removeFromFavoriteHandler = useCallback(() => {
-    axios
-      .delete(`http://localhost:8080/api/recipes/${favoriteID}`)
-      .then((res) => {
-        if (res.status == 200) {
-          alert(res.data.message);
-          setIsFavorited(!favorited);
-          dispatch(recipeActions.removeFromFavorites(favoriteID));
-        } else {
-          alert(res.error.message);
-        }
-      });
-  }, [favoriteID]);
+  };
+  const removeFromFavoriteHandler = () => {
+    axios({
+      url: `http://localhost:8080/api/recipes/${favoriteID}`,
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (res.status == 200) {
+        alert(res.data.message);
+        setIsFavorited(!favorited);
+        dispatch(recipeActions.removeFromFavorites(favoriteID));
+      } else {
+        alert(res.error.message);
+      }
+    });
+  };
 
   // SHOWING BUTTON DEPENDING ON THE ISFAVORITE STATE
   const favoriteButton = !!favorited ? (

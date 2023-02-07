@@ -15,14 +15,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { recipeActions } from "../../redux/store/recipe-slice";
 
 const RecipeItem = (props) => {
-  const uid = useSelector((state) => state.auth.uid);
   const { id } = props;
+  const uid = useSelector((state) => state.auth.uid);
   const token = useSelector((state) => state.auth.token);
 
   const [recipeData, setRecipeData] = useState({});
   const [isFavorite, setIsFavorite] = useState(!!props.isFavorite);
-  const favorites = useSelector((state) => state.recipes.favorites);
-  // console.log(favorites);
+
   const dispatch = useDispatch();
   const calorie = isNaN(Math.floor(props.calories))
     ? "No calories"
@@ -69,7 +68,7 @@ const RecipeItem = (props) => {
   }, [recipeData]);
 
   // GET ALL RECIPES FROM THIRD PARTY API
-  const addToFavoriteHandler = (e) => {
+  const addToFavoriteHandler = () => {
     axios.get(props.id).then((res) => {
       if (res.status == 200) {
         setRecipeData(res.data);
